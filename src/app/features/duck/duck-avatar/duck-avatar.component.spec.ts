@@ -81,4 +81,48 @@ describe('DuckAvatarComponent', () => {
 
     expect(avatar.getAttribute('data-animation')).toBe('thinking');
   });
+
+  it('supports idle animation state', () => {
+    const fixture = TestBed.createComponent(DuckAvatarComponent);
+
+    fixture.componentRef.setInput('animation', 'idle');
+    fixture.detectChanges();
+
+    const avatar = fixture.nativeElement.querySelector('[role="img"]') as HTMLElement;
+
+    expect(avatar.getAttribute('data-animation')).toBe('idle');
+  });
+
+  it('supports wave animation state', () => {
+    const fixture = TestBed.createComponent(DuckAvatarComponent);
+
+    fixture.componentRef.setInput('animation', 'wave');
+    fixture.detectChanges();
+
+    const avatar = fixture.nativeElement.querySelector('[role="img"]') as HTMLElement;
+
+    expect(avatar.getAttribute('data-animation')).toBe('wave');
+  });
+
+  it('supports bounce animation state', () => {
+    const fixture = TestBed.createComponent(DuckAvatarComponent);
+
+    fixture.componentRef.setInput('animation', 'bounce');
+    fixture.detectChanges();
+
+    const avatar = fixture.nativeElement.querySelector('[role="img"]') as HTMLElement;
+
+    expect(avatar.getAttribute('data-animation')).toBe('bounce');
+  });
+
+  it('supports sleeping animation state', () => {
+    const fixture = TestBed.createComponent(DuckAvatarComponent);
+
+    fixture.componentRef.setInput('animation', 'sleeping');
+    fixture.detectChanges();
+
+    const avatar = fixture.nativeElement.querySelector('[role="img"]') as HTMLElement;
+
+    expect(avatar.getAttribute('data-animation')).toBe('sleeping');
+  });
 });
