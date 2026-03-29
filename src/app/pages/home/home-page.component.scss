@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+
+.page {
+  max-inline-size: 72rem;
+  margin-inline: auto;
+}
+
+.page__content {
+  padding-block: 2rem;
+}
+
+.page__eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+.page__body {
+  line-height: 1.6;
+  max-inline-size: 60ch;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+}

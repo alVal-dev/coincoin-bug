@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.header {
+  padding: 1rem 1.5rem 0;
+}
+
+.header__inner {
+  align-items: start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-inline: auto;
+  max-inline-size: 72rem;
+}
+
+.header__main {
+  min-inline-size: 0;
+}
+
+.header__brand {
+  color: inherit;
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.header__tagline {
+  line-height: 1.4;
+  margin: 0.35rem 0 0;
+  opacity: 0.8;
+}
+
+@media (max-width: 640px) {
+  .header__inner {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

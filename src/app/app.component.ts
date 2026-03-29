@@ -7,12 +7,13 @@ import { HeaderComponent } from './shared/layout/header/header.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [HeaderComponent, AppBannerComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App {
+export class AppComponent {
   private readonly themeService = inject(ThemeService);
 
   constructor() {
