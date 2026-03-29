@@ -8,11 +8,13 @@
 }
 
 .page__content {
+  display: grid;
+  gap: 1.5rem;
   padding-block: 2rem;
 }
 
 .page__eyebrow {
-  margin: 0 0 0.5rem;
+  margin: 0;
   font-size: 0.875rem;
   letter-spacing: 0.08em;
   opacity: 0.75;
@@ -20,12 +22,17 @@
 }
 
 .page__body {
+  margin: 0;
   line-height: 1.6;
   max-inline-size: 60ch;
 }
 
+.page__action {
+  justify-self: start;
+}
+
 h1 {
-  margin: 0 0 1rem;
+  margin: 0;
   font-size: clamp(2rem, 5vw, 3rem);
   line-height: 1.1;
 }

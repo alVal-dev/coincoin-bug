@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import {
   CHAT_REPLY_DELAY_MS,
@@ -8,6 +9,7 @@ import {
 import { type DuckContentEntry } from '../../content';
 import { type DuckSession } from '../../models';
 import { ChatRuntimeService } from './chat-runtime.service';
+import { CreditsAccessService } from './credits-access.service';
 import { ResponseCatalogService } from './response-catalog.service';
 import { ResponseEngineService, type ResponseEngineResult } from './response-engine.service';
 import { SessionPersistenceService } from './session-persistence.service';
@@ -22,6 +24,8 @@ export class ChatFlowService {
   private readonly responseCatalogService = inject(ResponseCatalogService);
   private readonly responseEngineService = inject(ResponseEngineService);
   private readonly sessionPersistenceService = inject(SessionPersistenceService);
+  private readonly creditsAccessService = inject(CreditsAccessService);
+  private readonly router = inject(Router);
 
   startSession(): void {
     const now = Date.now();
@@ -69,7 +73,6 @@ export class ChatFlowService {
     this.chatRuntimeService.clearSleepTimer();
 
     const shouldAddWakeupPrefix = this.shouldAddWakeupPrefix(activeSession);
-
     const userMessageCreatedAt = Date.now();
 
     this.sessionService.addMessage({
@@ -79,6 +82,102 @@ export class ChatFlowService {
       createdAt: userMessageCreatedAt,
     });
 
+    this.scheduleDuckReply({
+      message: trimmedMessage,
+      shouldAddWakeupPrefix,
+    });
+  }
+
+  resolveBug(): void {
+    const activeSession = this.sessionService.activeSession();
+
+    if (!activeSession) {
+      return;
+    }
+
+    this.chatRuntimeService.clearSleepTimer();
+
+    const resolution = this.pickResolutionMessage();
+    const resolvedAt = Date.now();
+
+    this.sessionService.addMessage({
+      id: this.generateDuckMessageId('resolution', resolvedAt),
+      author: 'duck',
+      text: resolution.text,
+      createdAt: resolvedAt,
+      kind: 'resolution',
+      mood: resolution.mood,
+      category: resolution.category,
+    });
+
+    this.sessionService.markResolved(resolvedAt);
+    this.creditsAccessService.grantAccess();
+    this.chatRuntimeService.setCelebrating();
+
+    void this.router.navigate(['/credits']);
+  }
+
+  startNewSession(): void {
+    this.chatRuntimeService.clearSleepTimer();
+    this.sessionService.clearSession();
+    this.startSession();
+  }
+
+  startNewSessionFromCredits(): void {
+    this.chatRuntimeService.clearSleepTimer();
+    this.sessionService.clearSession();
+    this.creditsAccessService.revokeAccess();
+    this.startSession();
+
+    void this.router.navigate(['/']);
+  }
+
+  tryRestore(): void {
+    const restoredSession = this.sessionPersistenceService.readSession();
+
+    if (!restoredSession) {
+      return;
+    }
+
+    if (restoredSession.status === 'resolved') {
+      this.sessionService.clearSession();
+      this.chatRuntimeService.clearSleepTimer();
+      this.chatRuntimeService.setReady();
+      return;
+    }
+
+    this.sessionService.restoreSession(restoredSession);
+
+    const lastMessage = this.getLastMessage(restoredSession);
+
+    if (!lastMessage) {
+      this.chatRuntimeService.setReady();
+      return;
+    }
+
+    if (lastMessage.author === 'user') {
+      const shouldAddWakeupPrefix =
+        this.shouldAddWakeupPrefixBeforePendingUserMessage(restoredSession);
+
+      this.scheduleDuckReply({
+        message: lastMessage.text,
+        shouldAddWakeupPrefix,
+      });
+
+      return;
+    }
+
+    if (lastMessage.kind === 'sleep') {
+      this.chatRuntimeService.setSleeping();
+      this.chatRuntimeService.clearSleepTimer();
+      return;
+    }
+
+    this.chatRuntimeService.setReady();
+    this.recalculateSleepTimerIfEligible();
+  }
+
+  private scheduleDuckReply(input: { message: string; shouldAddWakeupPrefix: boolean }): void {
     this.chatRuntimeService.setThinking();
 
     globalThis.setTimeout(() => {
@@ -90,10 +189,10 @@ export class ChatFlowService {
       }
 
       const reply = this.responseEngineService.selectReply({
-        message: trimmedMessage,
+        message: input.message,
         userMessageCount: currentSession.userMessageCount,
         responseHistory: currentSession.responseHistory,
-        shouldAddWakeupPrefix,
+        shouldAddWakeupPrefix: input.shouldAddWakeupPrefix,
       });
 
       this.appendDuckReply(reply);
@@ -101,27 +200,6 @@ export class ChatFlowService {
       this.chatRuntimeService.setReady();
       this.armSleepTimerIfEligible();
     }, CHAT_REPLY_DELAY_MS);
-  }
-
-  resolveBug(): void {
-    throw new Error('ChatFlowService.resolveBug() is not implemented yet.');
-  }
-
-  startNewSession(): void {
-    throw new Error('ChatFlowService.startNewSession() is not implemented yet.');
-  }
-
-  tryRestore(): void {
-    const restoredSession = this.sessionPersistenceService.readSession();
-
-    if (!restoredSession || restoredSession.status !== 'active') {
-      return;
-    }
-
-    this.sessionService.restoreSession(restoredSession);
-    this.chatRuntimeService.setReady();
-
-    this.recalculateSleepTimerIfEligible();
   }
 
   private appendDuckReply(reply: ResponseEngineResult): void {
@@ -236,7 +314,10 @@ export class ChatFlowService {
       return false;
     }
 
-    return !(lastMessage.author === 'duck' && lastMessage.kind === 'sleep');
+    return (
+      lastMessage.author === 'duck' &&
+      (lastMessage.kind === 'opening' || lastMessage.kind === 'reply')
+    );
   }
 
   private canSleepNow(session: DuckSession): boolean {
@@ -263,6 +344,12 @@ export class ChatFlowService {
     return lastMessage?.author === 'duck' && lastMessage.kind === 'sleep';
   }
 
+  private shouldAddWakeupPrefixBeforePendingUserMessage(session: DuckSession): boolean {
+    const previousMessage = session.messages.at(-2);
+
+    return previousMessage?.author === 'duck' && previousMessage.kind === 'sleep';
+  }
+
   private getLastMessage(session: DuckSession): DuckSession['messages'][number] | undefined {
     return session.messages.at(-1);
   }
@@ -281,6 +368,13 @@ export class ChatFlowService {
     return sleepMessages[randomIndex];
   }
 
+  private pickResolutionMessage(): DuckContentEntry {
+    const resolutionMessages = this.responseCatalogService.resolutionMessages;
+    const randomIndex = Math.floor(Math.random() * resolutionMessages.length);
+
+    return resolutionMessages[randomIndex];
+  }
+
   private generateSessionId(timestamp: number): string {
     return `session-${timestamp}`;
   }
@@ -289,7 +383,10 @@ export class ChatFlowService {
     return `user-message-${timestamp}`;
   }
 
-  private generateDuckMessageId(kind: 'opening' | 'reply' | 'sleep', timestamp: number): string {
+  private generateDuckMessageId(
+    kind: 'opening' | 'reply' | 'sleep' | 'resolution',
+    timestamp: number,
+  ): string {
     return `duck-${kind}-${timestamp}`;
   }
 }

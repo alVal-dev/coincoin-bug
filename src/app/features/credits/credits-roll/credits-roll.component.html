@@ -1,0 +1,14 @@
+<section
+  class="credits-roll"
+  [class.credits-roll--animated]="isAnimated()"
+  [class.credits-roll--static]="isStatic()"
+  aria-label="Générique de fin"
+>
+  <div class="credits-roll__viewport">
+    <div class="credits-roll__track">
+      @for (line of creditsLines; track line.id) {
+        <p class="credits-roll__line">{{ line.text }}</p>
+      }
+    </div>
+  </div>
+</section>

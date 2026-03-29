@@ -1,0 +1,60 @@
+:host {
+  display: block;
+}
+
+.credits-roll {
+  inline-size: 100%;
+}
+
+.credits-roll__viewport {
+  overflow: hidden;
+  position: relative;
+  min-block-size: 16rem;
+  max-inline-size: 40rem;
+  margin-inline: auto;
+  border: 1px solid var(--color-border, currentColor);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.credits-roll__track {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.credits-roll__line {
+  margin: 0;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.credits-roll--animated .credits-roll__viewport {
+  block-size: 20rem;
+}
+
+.credits-roll--animated .credits-roll__track {
+  min-block-size: 100%;
+  justify-content: end;
+  animation: credits-roll-scroll 20s linear forwards;
+  will-change: transform;
+}
+
+.credits-roll--static .credits-roll__viewport {
+  overflow: visible;
+  min-block-size: auto;
+}
+
+.credits-roll--static .credits-roll__track {
+  animation: none;
+}
+
+@keyframes credits-roll-scroll {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
+}

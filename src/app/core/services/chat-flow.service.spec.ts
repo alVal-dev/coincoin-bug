@@ -1,11 +1,13 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CHAT_REPLY_DELAY_MS, SLEEP_DELAY_MS } from '../../config/business-rules';
 import { type ChatMessage, type DuckChatMessage } from '../../models';
 import { ChatRuntimeService } from './chat-runtime.service';
 import { ChatFlowService } from './chat-flow.service';
+import { CreditsAccessService } from './credits-access.service';
 import { ResponseCatalogService } from './response-catalog.service';
 import { ResponseEngineService } from './response-engine.service';
 import { SessionPersistenceService } from './session-persistence.service';
@@ -26,10 +28,20 @@ describe('ChatFlowService', () => {
   let responseCatalogService: ResponseCatalogService;
   let responseEngineService: ResponseEngineService;
   let sessionPersistenceService: SessionPersistenceService;
+  let creditsAccessService: CreditsAccessService;
+  let router: Pick<Router, 'navigate'>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideZonelessChangeDetection()],
+      providers: [
+        provideZonelessChangeDetection(),
+        {
+          provide: Router,
+          useValue: {
+            navigate: vi.fn().mockResolvedValue(true),
+          } satisfies Pick<Router, 'navigate'>,
+        },
+      ],
     });
 
     service = TestBed.inject(ChatFlowService);
@@ -38,8 +50,11 @@ describe('ChatFlowService', () => {
     responseCatalogService = TestBed.inject(ResponseCatalogService);
     responseEngineService = TestBed.inject(ResponseEngineService);
     sessionPersistenceService = TestBed.inject(SessionPersistenceService);
+    creditsAccessService = TestBed.inject(CreditsAccessService);
+    router = TestBed.inject(Router);
 
     sessionService.clearSession();
+    creditsAccessService.revokeAccess();
     chatRuntimeService.clearSleepTimer();
     chatRuntimeService.setReady();
   });
@@ -88,15 +103,6 @@ describe('ChatFlowService', () => {
     service.startSession();
 
     expect(createSessionSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('still exposes stable explicit not-yet-implemented methods for resolveBug and startNewSession', () => {
-    expect(() => service.resolveBug()).toThrowError(
-      'ChatFlowService.resolveBug() is not implemented yet.',
-    );
-    expect(() => service.startNewSession()).toThrowError(
-      'ChatFlowService.startNewSession() is not implemented yet.',
-    );
   });
 
   it('ignores an empty message', () => {
@@ -365,6 +371,8 @@ describe('ChatFlowService', () => {
 
     service.tryRestore();
 
+    expect(chatRuntimeService.state()).toBe('sleeping');
+
     await vi.advanceTimersByTimeAsync(SLEEP_DELAY_MS + 100);
 
     const sleepMessages = sessionService
@@ -372,5 +380,229 @@ describe('ChatFlowService', () => {
       .filter((message) => message.author === 'duck' && message.kind === 'sleep');
 
     expect(sleepMessages).toHaveLength(1);
+  });
+
+  it('resolves the active session, grants credits access, sets celebrating and navigates to credits', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0);
+    const navigateSpy = vi.spyOn(router, 'navigate');
+    const grantAccessSpy = vi.spyOn(creditsAccessService, 'grantAccess');
+
+    service.startSession();
+    service.resolveBug();
+
+    const resolvedSession = sessionService.resolvedSession();
+    const lastMessage = resolvedSession?.messages.at(-1);
+
+    expect(resolvedSession?.status).toBe('resolved');
+    expectDuckMessage(lastMessage);
+    expect(lastMessage.kind).toBe('resolution');
+    expect(grantAccessSpy).toHaveBeenCalledTimes(1);
+    expect(chatRuntimeService.state()).toBe('celebrating');
+    expect(navigateSpy).toHaveBeenCalledWith(['/credits']);
+  });
+
+  it('does nothing when resolving without an active session', () => {
+    const navigateSpy = vi.spyOn(router, 'navigate');
+    const grantAccessSpy = vi.spyOn(creditsAccessService, 'grantAccess');
+
+    service.resolveBug();
+
+    expect(sessionService.session()).toBeNull();
+    expect(grantAccessSpy).not.toHaveBeenCalled();
+    expect(navigateSpy).not.toHaveBeenCalled();
+  });
+
+  it('starts a new session from chat without navigating', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0);
+    const navigateSpy = vi.spyOn(router, 'navigate');
+    const dateNowSpy = vi
+      .spyOn(Date, 'now')
+      .mockReturnValueOnce(1_700_000_500_000)
+      .mockReturnValueOnce(1_700_000_500_001);
+
+    service.startSession();
+    const previousSessionId = sessionService.activeSession()?.id;
+
+    service.startNewSession();
+
+    const currentSession = sessionService.activeSession();
+
+    expect(currentSession).not.toBeNull();
+    expect(currentSession?.id).not.toBe(previousSessionId);
+    expect(currentSession?.messages).toHaveLength(1);
+    expect(navigateSpy).not.toHaveBeenCalled();
+
+    dateNowSpy.mockRestore();
+  });
+
+  it('starts a new session from credits, revokes access and navigates home', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0);
+    const navigateSpy = vi.spyOn(router, 'navigate');
+    const revokeAccessSpy = vi.spyOn(creditsAccessService, 'revokeAccess');
+
+    service.startSession();
+    service.resolveBug();
+
+    service.startNewSessionFromCredits();
+
+    const currentSession = sessionService.activeSession();
+
+    expect(revokeAccessSpy).toHaveBeenCalled();
+    expect(currentSession).not.toBeNull();
+    expect(currentSession?.status).toBe('active');
+    expect(chatRuntimeService.state()).toBe('ready');
+    expect(navigateSpy).toHaveBeenCalledWith(['/']);
+  });
+
+  it('does not restore a resolved session as chat', () => {
+    vi.spyOn(sessionPersistenceService, 'readSession').mockReturnValue({
+      id: 'resolved-session',
+      status: 'resolved',
+      startedAt: 1_700_000_000_000,
+      updatedAt: 1_700_000_001_000,
+      messages: [],
+      userMessageCount: 0,
+      responseHistory: [],
+      messagesSinceLastSleep: 0,
+      lastDuckReplyAt: null,
+    });
+
+    service.tryRestore();
+
+    expect(sessionService.session()).toBeNull();
+    expect(chatRuntimeService.state()).toBe('ready');
+  });
+
+  it('restores a pending thinking cycle when the last message is from the user', async () => {
+    vi.useFakeTimers();
+
+    const selectReplySpy = vi.spyOn(responseEngineService, 'selectReply');
+    const now = 1_700_000_300_000;
+    vi.setSystemTime(now);
+
+    vi.spyOn(sessionPersistenceService, 'readSession').mockReturnValue({
+      id: 'session-thinking',
+      status: 'active',
+      startedAt: now - 20_000,
+      updatedAt: now - 1_000,
+      messages: [
+        {
+          id: 'duck-opening-thinking',
+          author: 'duck',
+          text: 'Coin.',
+          createdAt: now - 20_000,
+          kind: 'opening',
+          mood: 'welcoming',
+          category: 'opening',
+        },
+        {
+          id: 'user-message-1',
+          author: 'user',
+          text: 'Mon bug persiste',
+          createdAt: now - 1_000,
+        },
+      ],
+      userMessageCount: 1,
+      responseHistory: [],
+      messagesSinceLastSleep: 1,
+      lastDuckReplyAt: now - 20_000,
+    });
+
+    service.tryRestore();
+
+    expect(chatRuntimeService.state()).toBe('thinking');
+
+    await vi.advanceTimersByTimeAsync(CHAT_REPLY_DELAY_MS);
+
+    const lastMessage = sessionService.messages().at(-1);
+    expectDuckMessage(lastMessage);
+    expect(lastMessage.kind).toBe('reply');
+    expect(chatRuntimeService.state()).toBe('ready');
+
+    expect(selectReplySpy).toHaveBeenCalledWith({
+      message: 'Mon bug persiste',
+      userMessageCount: 1,
+      responseHistory: [],
+      shouldAddWakeupPrefix: false,
+    });
+  });
+
+  it('restores a pending thinking cycle with wakeup prefix when the previous message is sleep', async () => {
+    vi.useFakeTimers();
+
+    const selectReplySpy = vi.spyOn(responseEngineService, 'selectReply');
+    const now = 1_700_000_400_000;
+    vi.setSystemTime(now);
+
+    vi.spyOn(sessionPersistenceService, 'readSession').mockReturnValue({
+      id: 'session-thinking-after-sleep',
+      status: 'active',
+      startedAt: now - 20_000,
+      updatedAt: now - 1_000,
+      messages: [
+        {
+          id: 'duck-opening-thinking',
+          author: 'duck',
+          text: 'Coin.',
+          createdAt: now - 20_000,
+          kind: 'opening',
+          mood: 'welcoming',
+          category: 'opening',
+        },
+        {
+          id: 'user-message-1',
+          author: 'user',
+          text: 'Premier message',
+          createdAt: now - 18_000,
+        },
+        {
+          id: 'duck-reply-1',
+          author: 'duck',
+          text: 'Réponse',
+          createdAt: now - 17_000,
+          kind: 'reply',
+          mood: 'curious',
+          category: 'general',
+        },
+        {
+          id: 'user-message-2',
+          author: 'user',
+          text: 'Deuxième message',
+          createdAt: now - 16_000,
+        },
+        {
+          id: 'duck-sleep-1',
+          author: 'duck',
+          text: 'Zzz...',
+          createdAt: now - 15_000,
+          kind: 'sleep',
+          mood: 'sleeping',
+          category: 'sleep',
+        },
+        {
+          id: 'user-message-3',
+          author: 'user',
+          text: 'Réveille-toi',
+          createdAt: now - 1_000,
+        },
+      ],
+      userMessageCount: 3,
+      responseHistory: [],
+      messagesSinceLastSleep: 1,
+      lastDuckReplyAt: now - 17_000,
+    });
+
+    service.tryRestore();
+
+    expect(chatRuntimeService.state()).toBe('thinking');
+
+    await vi.advanceTimersByTimeAsync(CHAT_REPLY_DELAY_MS);
+
+    expect(selectReplySpy).toHaveBeenCalledWith({
+      message: 'Réveille-toi',
+      userMessageCount: 3,
+      responseHistory: [],
+      shouldAddWakeupPrefix: true,
+    });
   });
 });
