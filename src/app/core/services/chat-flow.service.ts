@@ -1,9 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 
+import { CHAT_REPLY_DELAY_MS } from '../../config/business-rules';
 import { type DuckContentEntry } from '../../content';
 import { type DuckSession } from '../../models';
 import { ChatRuntimeService } from './chat-runtime.service';
 import { ResponseCatalogService } from './response-catalog.service';
+import { ResponseEngineService, type ResponseEngineResult } from './response-engine.service';
 import { SessionService } from './session.service';
 
 @Injectable({
@@ -13,6 +15,7 @@ export class ChatFlowService {
   private readonly sessionService = inject(SessionService);
   private readonly chatRuntimeService = inject(ChatRuntimeService);
   private readonly responseCatalogService = inject(ResponseCatalogService);
+  private readonly responseEngineService = inject(ResponseEngineService);
 
   startSession(): void {
     const now = Date.now();
@@ -25,7 +28,7 @@ export class ChatFlowService {
       updatedAt: now,
       messages: [
         {
-          id: this.generateDuckMessageId(now),
+          id: this.generateDuckMessageId('opening', now),
           author: 'duck',
           text: opening.text,
           createdAt: now,
@@ -44,8 +47,47 @@ export class ChatFlowService {
     this.chatRuntimeService.setReady();
   }
 
-  sendMessage(): void {
-    throw new Error('ChatFlowService.sendMessage() is not implemented yet.');
+  sendMessage(message: string): void {
+    const trimmedMessage = message.trim();
+
+    if (trimmedMessage.length === 0) {
+      return;
+    }
+
+    const activeSession = this.sessionService.activeSession();
+    if (!activeSession) {
+      return;
+    }
+
+    const userMessageCreatedAt = Date.now();
+
+    this.sessionService.addMessage({
+      id: this.generateUserMessageId(userMessageCreatedAt),
+      author: 'user',
+      text: trimmedMessage,
+      createdAt: userMessageCreatedAt,
+    });
+
+    this.chatRuntimeService.setThinking();
+
+    globalThis.setTimeout(() => {
+      const currentSession = this.sessionService.activeSession();
+
+      if (!currentSession) {
+        this.chatRuntimeService.setReady();
+        return;
+      }
+
+      const reply = this.responseEngineService.selectReply({
+        message: trimmedMessage,
+        userMessageCount: currentSession.userMessageCount,
+        responseHistory: currentSession.responseHistory,
+      });
+
+      this.appendDuckReply(reply);
+      this.sessionService.pushResponseHistory(reply.entry.id, Date.now());
+      this.chatRuntimeService.setReady();
+    }, CHAT_REPLY_DELAY_MS);
   }
 
   resolveBug(): void {
@@ -60,6 +102,20 @@ export class ChatFlowService {
     throw new Error('ChatFlowService.tryRestore() is not implemented yet.');
   }
 
+  private appendDuckReply(reply: ResponseEngineResult): void {
+    const replyCreatedAt = Date.now();
+
+    this.sessionService.addMessage({
+      id: this.generateDuckMessageId('reply', replyCreatedAt),
+      author: 'duck',
+      text: reply.text,
+      createdAt: replyCreatedAt,
+      kind: 'reply',
+      mood: reply.entry.mood,
+      category: reply.entry.category,
+    });
+  }
+
   private pickOpeningMessage(): DuckContentEntry {
     const openings = this.responseCatalogService.openings;
     const randomIndex = Math.floor(Math.random() * openings.length);
@@ -71,7 +127,11 @@ export class ChatFlowService {
     return `session-${timestamp}`;
   }
 
-  private generateDuckMessageId(timestamp: number): string {
-    return `duck-opening-${timestamp}`;
+  private generateUserMessageId(timestamp: number): string {
+    return `user-message-${timestamp}`;
+  }
+
+  private generateDuckMessageId(kind: 'opening' | 'reply', timestamp: number): string {
+    return `duck-${kind}-${timestamp}`;
   }
 }

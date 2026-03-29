@@ -76,10 +76,12 @@ describe('ChatSessionComponent', () => {
     expect(textarea.disabled).toBe(true);
   });
 
-  it('forwards actions to ChatFlowService', () => {
-    const sendSpy = vi.spyOn(chatFlowService, 'sendMessage');
-    const resolveSpy = vi.spyOn(chatFlowService, 'resolveBug');
-    const newSessionSpy = vi.spyOn(chatFlowService, 'startNewSession');
+  it('forwards actions to ChatFlowService with the expected payloads', () => {
+    const sendSpy = vi.spyOn(chatFlowService, 'sendMessage').mockImplementation(() => undefined);
+    const resolveSpy = vi.spyOn(chatFlowService, 'resolveBug').mockImplementation(() => undefined);
+    const newSessionSpy = vi
+      .spyOn(chatFlowService, 'startNewSession')
+      .mockImplementation(() => undefined);
 
     const fixture = TestBed.createComponent(ChatSessionComponent);
     fixture.detectChanges();
@@ -101,7 +103,8 @@ describe('ChatSessionComponent', () => {
     actionButtons[0].click();
     actionButtons[1].click();
 
-    expect(sendSpy).toHaveBeenCalledTimes(2);
+    expect(sendSpy).toHaveBeenNthCalledWith(1, 'Mon CSS refuse de centrer quoi que ce soit');
+    expect(sendSpy).toHaveBeenNthCalledWith(2, 'Bonjour');
     expect(resolveSpy).toHaveBeenCalledTimes(1);
     expect(newSessionSpy).toHaveBeenCalledTimes(1);
   });

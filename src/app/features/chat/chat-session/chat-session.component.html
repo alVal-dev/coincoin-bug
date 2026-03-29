@@ -7,12 +7,12 @@
 
   <app-message-examples-panel
     [examples]="examples"
-    (exampleSelected)="onSelectExample()"
+    (exampleSelected)="onSelectExample($event)"
   ></app-message-examples-panel>
 
   <app-chat-composer
     [disabled]="isThinking()"
-    (messageSubmitted)="onSubmitMessage()"
+    (messageSubmitted)="onSubmitMessage($event)"
   ></app-chat-composer>
 
   <app-chat-actions

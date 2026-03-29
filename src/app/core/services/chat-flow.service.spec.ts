@@ -68,9 +68,6 @@ describe('ChatFlowService', () => {
   });
 
   it('exposes stable not-yet-implemented methods explicitly', () => {
-    expect(() => service.sendMessage()).toThrowError(
-      'ChatFlowService.sendMessage() is not implemented yet.',
-    );
     expect(() => service.resolveBug()).toThrowError(
       'ChatFlowService.resolveBug() is not implemented yet.',
     );

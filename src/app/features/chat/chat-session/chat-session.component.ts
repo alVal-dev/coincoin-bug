@@ -44,12 +44,12 @@ export class ChatSessionComponent implements AfterViewInit {
     this.chatComposerComponent?.focusTextarea();
   }
 
-  onSubmitMessage(): void {
-    this.chatFlowService.sendMessage();
+  onSubmitMessage(message: string): void {
+    this.chatFlowService.sendMessage(message);
   }
 
-  onSelectExample(): void {
-    this.chatFlowService.sendMessage();
+  onSelectExample(message: string): void {
+    this.chatFlowService.sendMessage(message);
   }
 
   onBugResolved(): void {
