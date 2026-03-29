@@ -611,4 +611,67 @@ describe('ChatFlowService', () => {
       shouldAddWakeupPrefix: true,
     });
   });
+
+  it('sets runtime to ready when no persisted session can be restored', () => {
+    vi.spyOn(sessionPersistenceService, 'readSession').mockReturnValue(null);
+
+    chatRuntimeService.setSleeping();
+
+    service.tryRestore();
+
+    expect(sessionService.session()).toBeNull();
+    expect(chatRuntimeService.state()).toBe('ready');
+  });
+
+  it('sets runtime to ready when restoring an active session with no messages', () => {
+    vi.spyOn(sessionPersistenceService, 'readSession').mockReturnValue({
+      id: 'session-empty',
+      status: 'active',
+      startedAt: 1_700_000_000_000,
+      updatedAt: 1_700_000_000_000,
+      messages: [],
+      userMessageCount: 0,
+      responseHistory: [],
+      messagesSinceLastSleep: 0,
+      lastDuckReplyAt: null,
+    });
+
+    chatRuntimeService.setSleeping();
+
+    service.tryRestore();
+
+    expect(sessionService.activeSession()?.id).toBe('session-empty');
+    expect(chatRuntimeService.state()).toBe('ready');
+  });
+
+  it('falls back to ready when restoring an active session ending with a resolution message', () => {
+    vi.spyOn(sessionPersistenceService, 'readSession').mockReturnValue({
+      id: 'session-unexpected-resolution',
+      status: 'active',
+      startedAt: 1_700_000_000_000,
+      updatedAt: 1_700_000_001_000,
+      messages: [
+        {
+          id: 'duck-resolution-1',
+          author: 'duck',
+          text: 'Bravo, évidemment grâce à moi.',
+          createdAt: 1_700_000_001_000,
+          kind: 'resolution',
+          mood: 'celebrating',
+          category: 'resolution',
+        },
+      ],
+      userMessageCount: 0,
+      responseHistory: [],
+      messagesSinceLastSleep: 0,
+      lastDuckReplyAt: 1_700_000_001_000,
+    });
+
+    chatRuntimeService.setSleeping();
+
+    service.tryRestore();
+
+    expect(sessionService.activeSession()?.id).toBe('session-unexpected-resolution');
+    expect(chatRuntimeService.state()).toBe('ready');
+  });
 });

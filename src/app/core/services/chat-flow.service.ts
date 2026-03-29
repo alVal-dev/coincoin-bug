@@ -139,6 +139,8 @@ export class ChatFlowService {
     const restoredSession = this.sessionPersistenceService.readSession();
 
     if (!restoredSession) {
+      this.chatRuntimeService.clearSleepTimer();
+      this.chatRuntimeService.setReady();
       return;
     }
 
@@ -154,6 +156,7 @@ export class ChatFlowService {
     const lastMessage = this.getLastMessage(restoredSession);
 
     if (!lastMessage) {
+      this.chatRuntimeService.clearSleepTimer();
       this.chatRuntimeService.setReady();
       return;
     }
@@ -176,8 +179,14 @@ export class ChatFlowService {
       return;
     }
 
+    if (lastMessage.kind === 'opening' || lastMessage.kind === 'reply') {
+      this.chatRuntimeService.setReady();
+      this.recalculateSleepTimerIfEligible();
+      return;
+    }
+
+    this.chatRuntimeService.clearSleepTimer();
     this.chatRuntimeService.setReady();
-    this.recalculateSleepTimerIfEligible();
   }
 
   private scheduleDuckReply(input: { message: string; shouldAddWakeupPrefix: boolean }): void {

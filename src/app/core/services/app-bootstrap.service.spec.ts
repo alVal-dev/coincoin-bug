@@ -41,4 +41,17 @@ describe('AppBootstrapService', () => {
     expect(initializeThemeSpy).toHaveBeenCalledTimes(1);
     expect(tryRestoreSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('still marks bootstrap as initialized even when no session is restored', () => {
+    const initializeThemeSpy = vi.spyOn(themeService, 'initialize');
+    const tryRestoreSpy = vi
+      .spyOn(chatFlowService, 'tryRestore')
+      .mockImplementation(() => undefined);
+
+    service.initialize();
+    service.initialize();
+
+    expect(initializeThemeSpy).toHaveBeenCalledTimes(1);
+    expect(tryRestoreSpy).toHaveBeenCalledTimes(1);
+  });
 });

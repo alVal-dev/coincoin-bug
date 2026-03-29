@@ -2,23 +2,12 @@
   display: block;
 }
 
-.chat-message-list-shell {
-  position: relative;
-}
-
 .chat-message-list {
   display: grid;
   gap: 0.875rem;
   overflow-y: auto;
   block-size: 20rem;
   padding-inline-end: 0.25rem;
-}
-
-.chat-message-list__new-message-indicator {
-  position: absolute;
-  inset-inline-end: 0.75rem;
-  inset-block-end: 0.75rem;
-  z-index: 1;
 }
 
 @media (min-width: 48rem) {
