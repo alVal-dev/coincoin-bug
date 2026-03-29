@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.duck-avatar {
+  inline-size: min(16rem, 100%);
+  margin-inline: auto;
+}
+
+.duck-avatar__svg {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.duck-avatar__body,
+.duck-avatar__head,
+.duck-avatar__wing {
+  fill: #ffd54a;
+}
+
+.duck-avatar__beak {
+  fill: #f59e0b;
+}
+
+.duck-avatar__eye {
+  fill: #111827;
+}

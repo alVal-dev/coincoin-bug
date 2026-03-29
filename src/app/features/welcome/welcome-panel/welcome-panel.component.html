@@ -1,0 +1,16 @@
+<section class="welcome-panel" aria-labelledby="welcome-title">
+  <div class="welcome-panel__content">
+    <p class="welcome-panel__eyebrow">Rubber duck debugging, mais théâtral</p>
+
+    <h1 id="welcome-title">Raconte ton bug au canard.</h1>
+
+    <p class="welcome-panel__body">
+      Il ne résoudra probablement rien, mais il réagira avec assurance, humour, et un sens du mérite
+      tout à fait discutable.
+    </p>
+
+    <button #startButton type="button" class="welcome-panel__action" (click)="startSession.emit()">
+      Commencer une session
+    </button>
+  </div>
+</section>

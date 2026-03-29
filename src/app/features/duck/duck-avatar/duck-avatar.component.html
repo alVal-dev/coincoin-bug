@@ -1,0 +1,21 @@
+<div
+  class="duck-avatar"
+  [attr.data-mood]="mood()"
+  [attr.data-animation]="animation()"
+  role="img"
+  [attr.aria-label]="ariaLabelByMood[mood()]"
+>
+  <svg
+    class="duck-avatar__svg"
+    viewBox="0 0 160 160"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
+    <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
+    <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
+    <circle cx="112" cy="56" r="4" class="duck-avatar__eye" />
+    <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+  </svg>
+</div>

@@ -2,30 +2,37 @@
   display: block;
 }
 
-.page {
-  max-inline-size: 72rem;
+.home-page {
+  display: grid;
+  gap: 2rem;
   margin-inline: auto;
-}
-
-.page__content {
+  max-inline-size: 72rem;
   padding-block: 2rem;
 }
 
-.page__eyebrow {
-  margin: 0 0 0.5rem;
-  font-size: 0.875rem;
-  letter-spacing: 0.08em;
-  opacity: 0.75;
-  text-transform: uppercase;
+.home-page__duck {
+  display: flex;
+  justify-content: center;
 }
 
-.page__body {
-  line-height: 1.6;
-  max-inline-size: 60ch;
+.home-page__content {
+  min-inline-size: 0;
 }
 
-h1 {
-  margin: 0 0 1rem;
-  font-size: clamp(2rem, 5vw, 3rem);
-  line-height: 1.1;
+.home-page__placeholder {
+  border: 1px dashed currentcolor;
+  border-radius: 1rem;
+  opacity: 0.7;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .home-page {
+    align-items: start;
+    grid-template-columns: minmax(16rem, 20rem) 1fr;
+  }
+
+  .home-page__duck {
+    justify-content: start;
+  }
 }

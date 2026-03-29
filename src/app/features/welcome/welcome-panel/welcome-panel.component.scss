@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.welcome-panel__content {
+  max-inline-size: 42rem;
+}
+
+.welcome-panel__eyebrow {
+  letter-spacing: 0.08em;
+  margin: 0 0 0.5rem;
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+.welcome-panel__body {
+  line-height: 1.6;
+  margin: 0 0 1.5rem;
+}
+
+.welcome-panel__action {
+  border: 0;
+  border-radius: 0.875rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.875rem 1.125rem;
+}

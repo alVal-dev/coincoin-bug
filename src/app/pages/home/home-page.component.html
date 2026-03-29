@@ -1,12 +1,15 @@
-<section class="page">
-  <div class="page__content">
-    <p class="page__eyebrow">Accueil</p>
+<section class="home-page">
+  <div class="home-page__duck">
+    <app-duck-avatar mood="curious" animation="none"></app-duck-avatar>
+  </div>
 
-    <h1>coincoin-bug</h1>
-
-    <p class="page__body">
-      Une mini-expérience front-only où tu racontes ton bug à un canard jaune beaucoup trop
-      satisfait de lui-même.
-    </p>
+  <div class="home-page__content">
+    @if (!hasActiveSession()) {
+      <app-welcome-panel (startSession)="onStartSession()"></app-welcome-panel>
+    } @else {
+      <section class="home-page__placeholder" aria-label="Chat à venir">
+        <p>Le chat apparaîtra ici à l’étape suivante.</p>
+      </section>
+    }
   </div>
 </section>
