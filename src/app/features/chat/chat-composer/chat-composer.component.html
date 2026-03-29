@@ -1,0 +1,18 @@
+<form class="chat-composer" (submit)="$event.preventDefault(); submit()">
+  <label class="chat-composer__label sr-only" for="chat-message"> Décris ton bug </label>
+
+  <textarea
+    #messageTextarea
+    id="chat-message"
+    class="chat-composer__textarea"
+    rows="4"
+    [value]="draft()"
+    [disabled]="disabled()"
+    (input)="onInput($event)"
+    (keydown)="onKeydown($event)"
+  ></textarea>
+
+  <div class="chat-composer__footer">
+    <button type="submit" class="chat-composer__submit" [disabled]="!canSubmit()">Envoyer</button>
+  </div>
+</form>

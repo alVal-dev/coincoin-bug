@@ -1,0 +1,11 @@
+<section class="message-examples" aria-labelledby="message-examples-title">
+  <p id="message-examples-title" class="message-examples__title">Exemples à raconter au canard</p>
+
+  <div class="message-examples__list">
+    @for (example of examples(); track example.id) {
+      <button type="button" class="message-examples__item" (click)="onSelectExample(example.text)">
+        {{ example.text }}
+      </button>
+    }
+  </div>
+</section>

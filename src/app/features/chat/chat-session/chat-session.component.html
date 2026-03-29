@@ -1,0 +1,22 @@
+<section class="chat-session" aria-labelledby="chat-session-title">
+  <h2 id="chat-session-title" class="sr-only">Session de chat avec le canard</h2>
+
+  <section class="chat-session__history" aria-label="Historique du chat">
+    <p class="chat-session__placeholder">{{ messages().length }} message(s) dans la session.</p>
+  </section>
+
+  <app-message-examples-panel
+    [examples]="examples"
+    (exampleSelected)="onSelectExample()"
+  ></app-message-examples-panel>
+
+  <app-chat-composer
+    [disabled]="isThinking()"
+    (messageSubmitted)="onSubmitMessage()"
+  ></app-chat-composer>
+
+  <app-chat-actions
+    (bugResolved)="onBugResolved()"
+    (newSessionRequested)="onNewSessionRequested()"
+  ></app-chat-actions>
+</section>

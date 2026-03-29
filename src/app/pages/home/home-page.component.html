@@ -7,9 +7,7 @@
     @if (!hasActiveSession()) {
       <app-welcome-panel (startSession)="onStartSession()"></app-welcome-panel>
     } @else {
-      <section class="home-page__placeholder" aria-label="Chat à venir">
-        <p>Le chat apparaîtra ici à l’étape suivante.</p>
-      </section>
+      <app-chat-session></app-chat-session>
     }
   </div>
 </section>

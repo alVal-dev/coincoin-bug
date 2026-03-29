@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.chat-composer {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.chat-composer__textarea {
+  border-radius: 1rem;
+  font: inherit;
+  min-block-size: 7rem;
+  padding: 0.875rem 1rem;
+  resize: vertical;
+  width: 100%;
+}
+
+.chat-composer__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chat-composer__submit {
+  border: 0;
+  border-radius: 0.875rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+}
+
+.sr-only {
+  block-size: 1px;
+  clip-path: inset(50%);
+  inline-size: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}

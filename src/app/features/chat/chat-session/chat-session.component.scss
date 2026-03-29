@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.chat-session {
+  display: grid;
+  gap: 1rem;
+}
+
+.chat-session__history {
+  border: 1px dashed currentcolor;
+  border-radius: 1rem;
+  min-block-size: 8rem;
+  padding: 1rem;
+}
+
+.chat-session__placeholder {
+  margin: 0;
+  opacity: 0.75;
+}
+
+.sr-only {
+  block-size: 1px;
+  clip-path: inset(50%);
+  inline-size: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}

@@ -52,4 +52,33 @@ describe('HomePageComponent', () => {
 
     expect(startSessionSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('renders the chat session when an active session exists', () => {
+    sessionService.createSession({
+      id: 'session-001',
+      status: 'active',
+      startedAt: 1_700_000_000_000,
+      updatedAt: 1_700_000_000_500,
+      messages: [
+        {
+          id: 'message-duck-001',
+          author: 'duck',
+          text: 'Coin de bienvenue',
+          createdAt: 1_700_000_000_500,
+          kind: 'opening',
+          mood: 'welcoming',
+          category: 'opening',
+        },
+      ],
+      userMessageCount: 0,
+      responseHistory: [],
+      messagesSinceLastSleep: 0,
+      lastDuckReplyAt: 1_700_000_000_500,
+    });
+
+    const fixture = TestBed.createComponent(HomePageComponent);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('app-chat-session')).not.toBeNull();
+  });
 });
