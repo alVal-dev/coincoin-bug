@@ -12,12 +12,18 @@ import { ChatRuntimeService } from '../../../core/services/chat-runtime.service'
 import { SessionService } from '../../../core/services/session.service';
 import { ChatActionsComponent } from '../chat-actions/chat-actions.component';
 import { ChatComposerComponent } from '../chat-composer/chat-composer.component';
+import { ChatMessageListComponent } from '../chat-message-list/chat-message-list.component';
 import { MessageExamplesPanelComponent } from '../message-examples-panel/message-examples-panel.component';
 
 @Component({
   selector: 'app-chat-session',
   standalone: true,
-  imports: [ChatComposerComponent, ChatActionsComponent, MessageExamplesPanelComponent],
+  imports: [
+    ChatComposerComponent,
+    ChatActionsComponent,
+    ChatMessageListComponent,
+    MessageExamplesPanelComponent,
+  ],
   templateUrl: './chat-session.component.html',
   styleUrl: './chat-session.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

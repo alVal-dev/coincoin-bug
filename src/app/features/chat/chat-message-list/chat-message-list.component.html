@@ -1,0 +1,9 @@
+<div class="chat-message-list" role="log" aria-live="polite" aria-label="Historique des messages">
+  @for (message of messages(); track message.id) {
+    @if (message.author === 'duck') {
+      <app-duck-message-bubble [message]="message"></app-duck-message-bubble>
+    } @else {
+      <app-user-message-bubble [message]="message"></app-user-message-bubble>
+    }
+  }
+</div>

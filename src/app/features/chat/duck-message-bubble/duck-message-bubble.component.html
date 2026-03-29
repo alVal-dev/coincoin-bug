@@ -1,0 +1,20 @@
+<article class="duck-message-bubble">
+  <div class="duck-message-bubble__avatar" aria-hidden="true">
+    <svg
+      class="duck-message-bubble__avatar-svg"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      focusable="false"
+    >
+      <circle cx="10" cy="13" r="6" class="duck-message-bubble__body" />
+      <circle cx="15" cy="9" r="4" class="duck-message-bubble__head" />
+      <polygon points="18,9 23,11 18,13" class="duck-message-bubble__beak" />
+      <circle cx="16" cy="8.5" r="0.8" class="duck-message-bubble__eye" />
+    </svg>
+  </div>
+
+  <div class="duck-message-bubble__content">
+    <p class="duck-message-bubble__author">Canard</p>
+    <p class="duck-message-bubble__text">{{ message().text }}</p>
+  </div>
+</article>

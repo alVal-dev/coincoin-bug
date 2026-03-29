@@ -37,24 +37,33 @@ describe('ChatSessionComponent', () => {
           mood: 'welcoming',
           category: 'opening',
         },
+        {
+          id: 'message-user-001',
+          author: 'user',
+          text: 'Mon bug a une forte personnalité',
+          createdAt: 1_700_000_000_700,
+        },
       ],
-      userMessageCount: 0,
+      userMessageCount: 1,
       responseHistory: [],
-      messagesSinceLastSleep: 0,
+      messagesSinceLastSleep: 1,
       lastDuckReplyAt: 1_700_000_000_500,
     });
 
     chatRuntimeService.setReady();
   });
 
-  it('renders the chat subcomponents', () => {
+  it('renders the chat subcomponents and message history', () => {
     const fixture = TestBed.createComponent(ChatSessionComponent);
 
     fixture.detectChanges();
 
+    expect(fixture.nativeElement.querySelector('app-chat-message-list')).not.toBeNull();
     expect(fixture.nativeElement.querySelector('app-message-examples-panel')).not.toBeNull();
     expect(fixture.nativeElement.querySelector('app-chat-composer')).not.toBeNull();
     expect(fixture.nativeElement.querySelector('app-chat-actions')).not.toBeNull();
+    expect(fixture.nativeElement.textContent).toContain('Coin de bienvenue');
+    expect(fixture.nativeElement.textContent).toContain('Mon bug a une forte personnalité');
   });
 
   it('disables the composer while thinking', () => {

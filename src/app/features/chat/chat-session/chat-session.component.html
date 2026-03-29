@@ -2,7 +2,7 @@
   <h2 id="chat-session-title" class="sr-only">Session de chat avec le canard</h2>
 
   <section class="chat-session__history" aria-label="Historique du chat">
-    <p class="chat-session__placeholder">{{ messages().length }} message(s) dans la session.</p>
+    <app-chat-message-list [messages]="messages()"></app-chat-message-list>
   </section>
 
   <app-message-examples-panel

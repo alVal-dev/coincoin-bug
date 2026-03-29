@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+.user-message-bubble {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.user-message-bubble__content {
+  border-radius: 1rem 1rem 0.25rem 1rem;
+  max-inline-size: min(100%, 38rem);
+  padding: 0.875rem 1rem;
+}
+
+.user-message-bubble__author {
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+  opacity: 0.8;
+}
+
+.user-message-bubble__text {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
