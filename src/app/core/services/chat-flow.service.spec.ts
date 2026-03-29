@@ -12,6 +12,7 @@ import { ResponseCatalogService } from './response-catalog.service';
 import { ResponseEngineService } from './response-engine.service';
 import { SessionPersistenceService } from './session-persistence.service';
 import { SessionService } from './session.service';
+import { ConfettiService } from './confetti.service';
 
 function expectDuckMessage(message: ChatMessage | undefined): asserts message is DuckChatMessage {
   expect(message?.author).toBe('duck');
@@ -30,6 +31,7 @@ describe('ChatFlowService', () => {
   let sessionPersistenceService: SessionPersistenceService;
   let creditsAccessService: CreditsAccessService;
   let router: Pick<Router, 'navigate'>;
+  let confettiService: ConfettiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +54,9 @@ describe('ChatFlowService', () => {
     sessionPersistenceService = TestBed.inject(SessionPersistenceService);
     creditsAccessService = TestBed.inject(CreditsAccessService);
     router = TestBed.inject(Router);
+    confettiService = TestBed.inject(ConfettiService);
+
+    vi.spyOn(confettiService, 'celebrate').mockImplementation(() => undefined);
 
     sessionService.clearSession();
     creditsAccessService.revokeAccess();
@@ -382,7 +387,7 @@ describe('ChatFlowService', () => {
     expect(sleepMessages).toHaveLength(1);
   });
 
-  it('resolves the active session, grants credits access, sets celebrating and navigates to credits', () => {
+  it('resolves the active session, grants credits access, celebrates and navigates to credits', () => {
     vi.spyOn(Math, 'random').mockReturnValue(0);
     const navigateSpy = vi.spyOn(router, 'navigate');
     const grantAccessSpy = vi.spyOn(creditsAccessService, 'grantAccess');
@@ -397,6 +402,7 @@ describe('ChatFlowService', () => {
     expectDuckMessage(lastMessage);
     expect(lastMessage.kind).toBe('resolution');
     expect(grantAccessSpy).toHaveBeenCalledTimes(1);
+    expect(confettiService.celebrate).toHaveBeenCalledTimes(1);
     expect(chatRuntimeService.state()).toBe('celebrating');
     expect(navigateSpy).toHaveBeenCalledWith(['/credits']);
   });

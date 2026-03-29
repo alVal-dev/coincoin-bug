@@ -14,6 +14,7 @@ import { ResponseCatalogService } from './response-catalog.service';
 import { ResponseEngineService, type ResponseEngineResult } from './response-engine.service';
 import { SessionPersistenceService } from './session-persistence.service';
 import { SessionService } from './session.service';
+import { ConfettiService } from './confetti.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,7 @@ export class ChatFlowService {
   private readonly sessionPersistenceService = inject(SessionPersistenceService);
   private readonly creditsAccessService = inject(CreditsAccessService);
   private readonly router = inject(Router);
+  private readonly confettiService = inject(ConfettiService);
 
   startSession(): void {
     const now = Date.now();
@@ -113,6 +115,7 @@ export class ChatFlowService {
     this.sessionService.markResolved(resolvedAt);
     this.creditsAccessService.grantAccess();
     this.chatRuntimeService.setCelebrating();
+    this.confettiService.celebrate();
 
     void this.router.navigate(['/credits']);
   }
