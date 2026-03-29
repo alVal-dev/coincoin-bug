@@ -6,6 +6,7 @@ import {
   inject,
 } from '@angular/core';
 
+import { ChatFlowService } from '../../core/services/chat-flow.service';
 import { SessionService } from '../../core/services/session.service';
 import { DuckAvatarComponent } from '../../features/duck/duck-avatar/duck-avatar.component';
 import { WelcomePanelComponent } from '../../features/welcome/welcome-panel/welcome-panel.component';
@@ -20,6 +21,7 @@ import { WelcomePanelComponent } from '../../features/welcome/welcome-panel/welc
 })
 export class HomePageComponent implements AfterViewInit {
   private readonly sessionService = inject(SessionService);
+  private readonly chatFlowService = inject(ChatFlowService);
 
   @ViewChild(WelcomePanelComponent)
   private welcomePanelComponent?: WelcomePanelComponent;
@@ -33,6 +35,6 @@ export class HomePageComponent implements AfterViewInit {
   }
 
   onStartSession(): void {
-    // Étape 4.1 : l’orchestration réelle arrive en 4.2.
+    this.chatFlowService.startSession();
   }
 }

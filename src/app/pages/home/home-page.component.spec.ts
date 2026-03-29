@@ -1,12 +1,14 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { ChatFlowService } from '../../core/services/chat-flow.service';
 import { SessionService } from '../../core/services/session.service';
 import { HomePageComponent } from './home-page.component';
 
 describe('HomePageComponent', () => {
   let sessionService: SessionService;
+  let chatFlowService: ChatFlowService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -15,6 +17,7 @@ describe('HomePageComponent', () => {
     }).compileComponents();
 
     sessionService = TestBed.inject(SessionService);
+    chatFlowService = TestBed.inject(ChatFlowService);
     sessionService.clearSession();
   });
 
@@ -36,5 +39,17 @@ describe('HomePageComponent', () => {
     const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
 
     expect(document.activeElement).toBe(button);
+  });
+
+  it('starts a session when the welcome action is triggered', () => {
+    const startSessionSpy = vi.spyOn(chatFlowService, 'startSession');
+    const fixture = TestBed.createComponent(HomePageComponent);
+
+    fixture.detectChanges();
+
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    button.click();
+
+    expect(startSessionSpy).toHaveBeenCalledTimes(1);
   });
 });
