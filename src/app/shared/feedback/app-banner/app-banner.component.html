@@ -1,1 +1,5 @@
-<div class="app-banner" aria-live="polite" aria-atomic="true"></div>
+@if (chatRuntimeService.creditsExitBanner(); as message) {
+  <div class="app-banner" aria-live="polite" aria-atomic="true">
+    <p class="app-banner__message">{{ message }}</p>
+  </div>
+}

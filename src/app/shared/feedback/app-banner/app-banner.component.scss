@@ -1,3 +1,15 @@
 :host {
   display: block;
 }
+
+.app-banner {
+  padding: 0.75rem 1.5rem 0;
+}
+
+.app-banner__message {
+  background: rgba(255, 214, 10, 0.18);
+  border-radius: 0.75rem;
+  margin: 0 auto;
+  max-inline-size: 72rem;
+  padding: 0.875rem 1rem;
+}

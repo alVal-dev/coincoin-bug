@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+
+import { ChatRuntimeService } from '../../../core/services/chat-runtime.service';
 
 @Component({
   selector: 'app-banner',
@@ -7,4 +9,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './app-banner.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppBannerComponent {}
+export class AppBannerComponent {
+  readonly chatRuntimeService = inject(ChatRuntimeService);
+}
