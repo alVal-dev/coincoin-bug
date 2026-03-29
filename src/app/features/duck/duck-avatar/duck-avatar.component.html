@@ -3,19 +3,171 @@
   [attr.data-mood]="mood()"
   [attr.data-animation]="animation()"
   role="img"
-  [attr.aria-label]="ariaLabelByMood[mood()]"
+  [attr.aria-label]="ariaLabel()"
 >
-  <svg
-    class="duck-avatar__svg"
-    viewBox="0 0 160 160"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
-    <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
-    <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
-    <circle cx="112" cy="56" r="4" class="duck-avatar__eye" />
-    <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
-  </svg>
+  @switch (mood()) {
+    @case ('welcoming') {
+      <svg
+        class="duck-avatar__svg"
+        viewBox="0 0 160 160"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
+        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
+        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
+        <circle cx="103" cy="54" r="3.5" class="duck-avatar__eye" />
+        <circle cx="115" cy="54" r="3.5" class="duck-avatar__eye" />
+        <path d="M100 66 Q108 72 116 66" class="duck-avatar__smile" />
+        <path d="M98 48 Q103 44 108 48" class="duck-avatar__brow" />
+        <path d="M110 48 Q115 44 120 48" class="duck-avatar__brow" />
+        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+      </svg>
+    }
+
+    @case ('curious') {
+      <svg
+        class="duck-avatar__svg"
+        viewBox="0 0 160 160"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
+        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
+        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
+        <circle cx="102" cy="55" r="3.5" class="duck-avatar__eye" />
+        <circle cx="116" cy="53" r="4.5" class="duck-avatar__eye" />
+        <path d="M98 47 Q103 43 108 47" class="duck-avatar__brow" />
+        <path d="M111 49 Q116 45 121 47" class="duck-avatar__brow" />
+        <path d="M102 68 Q108 65 114 68" class="duck-avatar__smile duck-avatar__smile--subtle" />
+        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+      </svg>
+    }
+
+    @case ('thinking') {
+      <svg
+        class="duck-avatar__svg"
+        viewBox="0 0 160 160"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
+        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
+        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
+        <circle cx="103" cy="56" r="3.5" class="duck-avatar__eye" />
+        <circle cx="116" cy="56" r="3.5" class="duck-avatar__eye" />
+        <path d="M97 48 L109 46" class="duck-avatar__brow" />
+        <path d="M111 46 L121 48" class="duck-avatar__brow" />
+        <path d="M103 69 L114 69" class="duck-avatar__mouth" />
+        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+        <circle cx="134" cy="34" r="3" class="duck-avatar__thought" />
+        <circle cx="142" cy="26" r="4" class="duck-avatar__thought" />
+      </svg>
+    }
+
+    @case ('sarcastic') {
+      <svg
+        class="duck-avatar__svg"
+        viewBox="0 0 160 160"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
+        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
+        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
+        <circle cx="102" cy="56" r="3" class="duck-avatar__eye" />
+        <circle cx="116" cy="56" r="3" class="duck-avatar__eye" />
+        <path d="M97 48 L108 45" class="duck-avatar__brow" />
+        <path d="M112 45 L121 49" class="duck-avatar__brow" />
+        <path d="M101 69 Q109 66 117 70" class="duck-avatar__smirk" />
+        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+      </svg>
+    }
+
+    @case ('empathetic') {
+      <svg
+        class="duck-avatar__svg"
+        viewBox="0 0 160 160"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
+        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
+        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
+        <circle cx="103" cy="56" r="3" class="duck-avatar__eye" />
+        <circle cx="116" cy="56" r="3" class="duck-avatar__eye" />
+        <path d="M99 49 Q103 46 107 49" class="duck-avatar__brow duck-avatar__brow--soft" />
+        <path d="M112 49 Q116 46 120 49" class="duck-avatar__brow duck-avatar__brow--soft" />
+        <path d="M101 68 Q108 75 116 68" class="duck-avatar__smile duck-avatar__smile--soft" />
+        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+        <circle cx="96" cy="63" r="2" class="duck-avatar__blush" />
+        <circle cx="121" cy="63" r="2" class="duck-avatar__blush" />
+      </svg>
+    }
+
+    @case ('confused') {
+      <svg
+        class="duck-avatar__svg"
+        viewBox="0 0 160 160"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
+        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
+        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
+        <circle cx="102" cy="56" r="4" class="duck-avatar__eye" />
+        <circle cx="117" cy="56" r="2.5" class="duck-avatar__eye" />
+        <path d="M97 47 Q101 42 106 47" class="duck-avatar__brow" />
+        <path d="M113 49 Q117 52 121 49" class="duck-avatar__brow" />
+        <path d="M102 70 Q108 64 114 70" class="duck-avatar__mouth duck-avatar__mouth--confused" />
+        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+      </svg>
+    }
+
+    @case ('celebrating') {
+      <svg
+        class="duck-avatar__svg"
+        viewBox="0 0 160 160"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
+        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
+        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
+        <path d="M99 55 Q103 50 107 55" class="duck-avatar__eye-arc" />
+        <path d="M112 55 Q116 50 120 55" class="duck-avatar__eye-arc" />
+        <path d="M99 67 Q108 78 118 67" class="duck-avatar__smile duck-avatar__smile--big" />
+        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+        <circle cx="88" cy="28" r="3" class="duck-avatar__sparkle" />
+        <circle cx="98" cy="22" r="2.5" class="duck-avatar__sparkle" />
+        <circle cx="146" cy="48" r="3" class="duck-avatar__sparkle" />
+      </svg>
+    }
+
+    @case ('sleeping') {
+      <svg
+        class="duck-avatar__svg"
+        viewBox="0 0 160 160"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
+        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
+        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
+        <path d="M99 56 L107 56" class="duck-avatar__eye-closed" />
+        <path d="M113 56 L121 56" class="duck-avatar__eye-closed" />
+        <path d="M102 69 Q108 72 114 69" class="duck-avatar__smile duck-avatar__smile--subtle" />
+        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+        <text x="134" y="30" class="duck-avatar__sleep-mark">Z</text>
+      </svg>
+    }
+  }
 </div>

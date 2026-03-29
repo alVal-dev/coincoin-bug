@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 import { type DuckAnimationState, type DuckMood } from '../../../models';
 
@@ -23,4 +23,6 @@ export class DuckAvatarComponent {
     celebrating: 'Canard jaune en célébration',
     sleeping: 'Canard jaune endormi',
   };
+
+  readonly ariaLabel = computed(() => this.ariaLabelByMood[this.mood()]);
 }

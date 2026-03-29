@@ -23,6 +23,55 @@
   fill: #f59e0b;
 }
 
-.duck-avatar__eye {
+.duck-avatar__eye,
+.duck-avatar__thought,
+.duck-avatar__sparkle {
   fill: #111827;
+}
+
+.duck-avatar__brow,
+.duck-avatar__mouth,
+.duck-avatar__smile,
+.duck-avatar__smirk,
+.duck-avatar__eye-arc,
+.duck-avatar__eye-closed {
+  fill: none;
+  stroke: #111827;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.75;
+}
+
+.duck-avatar__brow--soft,
+.duck-avatar__smile--soft,
+.duck-avatar__smile--subtle {
+  stroke-width: 2.25;
+}
+
+.duck-avatar__smile--big {
+  stroke-width: 3.25;
+}
+
+.duck-avatar__blush {
+  fill: #f9a8d4;
+  opacity: 0.7;
+}
+
+.duck-avatar__sleep-mark {
+  fill: #111827;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: system-ui, sans-serif;
+}
+
+.duck-avatar[data-animation='none'] {
+  transform: none;
+}
+
+.duck-avatar[data-animation='idle'],
+.duck-avatar[data-animation='wave'],
+.duck-avatar[data-animation='thinking'],
+.duck-avatar[data-animation='bounce'],
+.duck-avatar[data-animation='sleeping'] {
+  transform-origin: center;
 }
