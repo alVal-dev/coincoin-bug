@@ -1,19 +1,3 @@
-export type EpochMs = number;
-export type SessionId = string;
-export type MessageId = string;
-export type ResponseId = string;
-
-// ──────────────────────────────────────────────
-// Thème
-// ──────────────────────────────────────────────
-
-export const APP_THEMES = ['zen', 'chaos'] as const;
-export type AppTheme = (typeof APP_THEMES)[number];
-
-// ──────────────────────────────────────────────
-// Expressions du canard
-// ──────────────────────────────────────────────
-
 export const DUCK_MOODS = [
   'welcoming',
   'curious',
@@ -27,149 +11,78 @@ export const DUCK_MOODS = [
 
 export type DuckMood = (typeof DUCK_MOODS)[number];
 
-// ──────────────────────────────────────────────
-// Statut de session
-// ──────────────────────────────────────────────
+export const DUCK_ANIMATION_STATES = [
+  'idle',
+  'wave',
+  'thinking',
+  'bounce',
+  'sleeping',
+  'none',
+] as const;
 
-export const SESSION_STATUSES = ['active', 'resolved'] as const;
-export type SessionStatus = (typeof SESSION_STATUSES)[number];
+export type DuckAnimationState = (typeof DUCK_ANIMATION_STATES)[number];
 
-// ──────────────────────────────────────────────
-// Messages
-// ──────────────────────────────────────────────
+export const KEYWORD_CATEGORIES = ['git', 'api', 'runtime', 'css', 'prod', 'general'] as const;
 
-export const MESSAGE_AUTHORS = ['user', 'duck'] as const;
-export type MessageAuthor = (typeof MESSAGE_AUTHORS)[number];
+export type KeywordCategory = (typeof KEYWORD_CATEGORIES)[number];
+
+export const REPLY_POOL_CATEGORIES = [
+  ...KEYWORD_CATEGORIES,
+  'empathic',
+  'absurd',
+  'offtopic',
+] as const;
+
+export type ReplyPoolCategory = (typeof REPLY_POOL_CATEGORIES)[number];
+
+export const DUCK_MESSAGE_CATEGORIES = [
+  'opening',
+  'sleep',
+  'resolution',
+  ...REPLY_POOL_CATEGORIES,
+] as const;
+
+export type DuckMessageCategory = (typeof DUCK_MESSAGE_CATEGORIES)[number];
+
+export const CHAT_MESSAGE_AUTHORS = ['user', 'duck'] as const;
+
+export type ChatMessageAuthor = (typeof CHAT_MESSAGE_AUTHORS)[number];
 
 export const DUCK_MESSAGE_KINDS = ['opening', 'reply', 'sleep', 'resolution'] as const;
 
 export type DuckMessageKind = (typeof DUCK_MESSAGE_KINDS)[number];
 
+export const SESSION_STATUSES = ['active', 'resolved'] as const;
+
+export type DuckSessionStatus = (typeof SESSION_STATUSES)[number];
+
 interface BaseChatMessage {
-  readonly id: MessageId;
-  readonly text: string;
-  readonly createdAt: EpochMs;
+  id: string;
+  text: string;
+  createdAt: number;
 }
 
 export interface UserChatMessage extends BaseChatMessage {
-  readonly author: 'user';
+  author: 'user';
 }
 
-interface BaseDuckChatMessage extends BaseChatMessage {
-  readonly author: 'duck';
-  readonly mood: DuckMood;
-  readonly responseId: ResponseId;
+export interface DuckChatMessage extends BaseChatMessage {
+  author: 'duck';
+  kind: DuckMessageKind;
+  mood: DuckMood;
+  category: DuckMessageCategory;
 }
-
-// ──────────────────────────────────────────────
-// Catégories
-// ──────────────────────────────────────────────
-
-export const KEYWORD_CATEGORIES = ['css', 'api', 'runtime', 'git', 'prod', 'general'] as const;
-
-export type KeywordCategory = (typeof KEYWORD_CATEGORIES)[number];
-
-export const THEMATIC_RESPONSE_CATEGORIES = [
-  'generic',
-  'css',
-  'api',
-  'runtime',
-  'git',
-  'prod',
-  'empathetic',
-  'absurd',
-  'off-topic',
-  'easter-egg',
-  'short-message',
-  'long-message',
-] as const;
-
-export type ThematicResponseCategory = (typeof THEMATIC_RESPONSE_CATEGORIES)[number];
-
-export const LIFECYCLE_RESPONSE_CATEGORIES = ['opening', 'sleep', 'resolution'] as const;
-
-export type LifecycleResponseCategory = (typeof LIFECYCLE_RESPONSE_CATEGORIES)[number];
-
-export const RESPONSE_CATEGORIES = [
-  'opening',
-  'sleep',
-  'resolution',
-  'generic',
-  'css',
-  'api',
-  'runtime',
-  'git',
-  'prod',
-  'empathetic',
-  'absurd',
-  'off-topic',
-  'easter-egg',
-  'short-message',
-  'long-message',
-] as const;
-
-export type ResponseCategory = (typeof RESPONSE_CATEGORIES)[number];
-
-// ──────────────────────────────────────────────
-// Catalogue de contenu
-// ──────────────────────────────────────────────
-
-export interface DuckResponse {
-  readonly id: ResponseId;
-  readonly text: string;
-  readonly mood: DuckMood;
-  readonly category: ResponseCategory;
-}
-
-export interface EasterEggEntry {
-  readonly triggers: readonly string[];
-  readonly response: DuckResponse;
-}
-
-// ──────────────────────────────────────────────
-// Messages du canard — union stricte
-// ──────────────────────────────────────────────
-
-export interface DuckOpeningMessage extends BaseDuckChatMessage {
-  readonly kind: 'opening';
-  readonly category: 'opening';
-}
-
-export interface DuckReplyMessage extends BaseDuckChatMessage {
-  readonly kind: 'reply';
-  readonly category: ThematicResponseCategory;
-}
-
-export interface DuckSleepMessage extends BaseDuckChatMessage {
-  readonly kind: 'sleep';
-  readonly category: 'sleep';
-}
-
-export interface DuckResolutionMessage extends BaseDuckChatMessage {
-  readonly kind: 'resolution';
-  readonly category: 'resolution';
-}
-
-export type DuckChatMessage =
-  | DuckOpeningMessage
-  | DuckReplyMessage
-  | DuckSleepMessage
-  | DuckResolutionMessage;
 
 export type ChatMessage = UserChatMessage | DuckChatMessage;
 
-// ──────────────────────────────────────────────
-// Session
-// ──────────────────────────────────────────────
-
 export interface DuckSession {
-  readonly id: SessionId;
-  readonly status: SessionStatus;
-  readonly startedAt: EpochMs;
-  readonly updatedAt: EpochMs;
-  readonly messages: readonly ChatMessage[];
-  readonly userMessageCount: number;
-  readonly responseHistory: readonly ResponseId[];
-  readonly messagesSinceLastSleep: number;
-  readonly lastDuckReplyAt: EpochMs | null;
+  id: string;
+  status: DuckSessionStatus;
+  startedAt: number;
+  updatedAt: number;
+  messages: ChatMessage[];
+  userMessageCount: number;
+  responseHistory: string[];
+  messagesSinceLastSleep: number;
+  lastDuckReplyAt: number | null;
 }
