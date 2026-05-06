@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { DestroyRef, Injectable, computed, effect, inject, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 
 import { StorageService } from './storage.service';
 
@@ -14,23 +14,11 @@ const THEME_ATTRIBUTE_NAME = 'data-theme';
 export class ThemeService {
   private readonly document = inject(DOCUMENT);
   private readonly storageService = inject(StorageService);
-  private readonly destroyRef = inject(DestroyRef);
 
   private readonly themeSignal = signal<AppTheme>('light');
   private initialized = false;
 
   readonly theme = computed(() => this.themeSignal());
-
-  constructor() {
-    const syncEffect = effect(() => {
-      const htmlElement = this.document.documentElement;
-      htmlElement.setAttribute(THEME_ATTRIBUTE_NAME, this.themeSignal());
-    });
-
-    this.destroyRef.onDestroy(() => {
-      syncEffect.destroy();
-    });
-  }
 
   initialize(): void {
     if (this.initialized) {
@@ -41,6 +29,12 @@ export class ThemeService {
     const initialTheme = storedTheme ?? this.getSystemPreferredTheme();
 
     this.themeSignal.set(initialTheme);
+
+    effect(() => {
+      const htmlElement = this.document.documentElement;
+      htmlElement.setAttribute(THEME_ATTRIBUTE_NAME, this.themeSignal());
+    });
+
     this.initialized = true;
   }
 

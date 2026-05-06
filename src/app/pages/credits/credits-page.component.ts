@@ -2,13 +2,13 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
-  OnDestroy,
   ViewChild,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationStart, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 import { ChatFlowService } from '../../core/services/chat-flow.service';
 import { ChatRuntimeService } from '../../core/services/chat-runtime.service';
@@ -24,20 +24,19 @@ import { CreditsRollComponent } from '../../features/credits/credits-roll/credit
   styleUrl: './credits-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreditsPageComponent implements AfterViewInit, OnDestroy {
+export class CreditsPageComponent implements AfterViewInit {
   private readonly chatFlowService = inject(ChatFlowService);
   private readonly sessionService = inject(SessionService);
   private readonly creditsAccessService = inject(CreditsAccessService);
   private readonly chatRuntimeService = inject(ChatRuntimeService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   @ViewChild('newSessionButton')
   private newSessionButton?: ElementRef<HTMLButtonElement>;
 
-  private routerEventsSubscription?: Subscription;
-
   constructor() {
-    this.routerEventsSubscription = this.router.events.subscribe((event) => {
+    this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
       if (!(event instanceof NavigationStart)) {
         return;
       }
@@ -52,10 +51,6 @@ export class CreditsPageComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.newSessionButton?.nativeElement.focus();
-  }
-
-  ngOnDestroy(): void {
-    this.routerEventsSubscription?.unsubscribe();
   }
 
   onStartNewSession(): void {

@@ -1,4 +1,4 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
 
 import { CREDITS_EXIT_BANNER_DURATION_MS, SLEEP_DELAY_MS } from '../../config/business-rules';
 import { type ChatRuntimeState } from '../../models';
@@ -7,11 +7,20 @@ import { type ChatRuntimeState } from '../../models';
   providedIn: 'root',
 })
 export class ChatRuntimeService {
+  private readonly destroyRef = inject(DestroyRef);
+
   private readonly runtimeStateSignal = signal<ChatRuntimeState>('ready');
   private readonly creditsExitBannerSignal = signal<string | null>(null);
 
   private sleepTimerId: ReturnType<typeof setTimeout> | null = null;
   private creditsExitBannerTimerId: ReturnType<typeof setTimeout> | null = null;
+
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      this.clearSleepTimer();
+      this.clearCreditsExitBanner();
+    });
+  }
 
   readonly state = this.runtimeStateSignal.asReadonly();
   readonly isReady = computed(() => this.runtimeStateSignal() === 'ready');
