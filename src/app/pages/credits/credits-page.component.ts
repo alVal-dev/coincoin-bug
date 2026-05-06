@@ -60,6 +60,9 @@ export class CreditsPageComponent implements AfterViewInit, OnDestroy {
 
   onStartNewSession(): void {
     this.chatFlowService.startNewSessionFromCredits();
+    this.chatRuntimeService.showCreditsExitBanner(
+      'Tu as quitté les crédits. Le canard reprend son poste.',
+    );
   }
 
   private handleBrowserBackNavigationFromCredits(): void {

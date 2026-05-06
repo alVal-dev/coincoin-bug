@@ -8,165 +8,881 @@
   @switch (mood()) {
     @case ('welcoming') {
       <svg
-        class="duck-avatar__svg"
+        class="duck-avatar__svg duck-avatar__svg--welcoming"
         viewBox="0 0 160 160"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         focusable="false"
       >
-        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
-        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
-        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
-        <circle cx="103" cy="54" r="3.5" class="duck-avatar__eye" />
-        <circle cx="115" cy="54" r="3.5" class="duck-avatar__eye" />
-        <path d="M100 66 Q108 72 116 66" class="duck-avatar__smile" />
-        <path d="M98 48 Q103 44 108 48" class="duck-avatar__brow" />
-        <path d="M110 48 Q115 44 120 48" class="duck-avatar__brow" />
-        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+        <!-- Pattes -->
+        <path
+          class="duck-avatar__leg"
+          d="M 60 135 L 60 148 L 68 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          class="duck-avatar__leg"
+          d="M 85 135 L 85 148 L 93 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Corps et Queue -->
+        <path
+          class="duck-avatar__tail"
+          d="M 35 115 Q 15 105 20 85 Q 35 90 45 95 Z"
+          fill="#ffd54a"
+        />
+        <ellipse class="duck-avatar__body" cx="70" cy="105" rx="45" ry="40" fill="#ffd54a" />
+
+        <!-- Aile levée pour saluer -->
+        <path
+          class="duck-avatar__wing"
+          d="M 60 95 Q 40 65 65 60 Q 75 75 65 95 Z"
+          fill="#ffd54a"
+          stroke="#f59e0b"
+          stroke-width="3"
+          stroke-linejoin="round"
+        />
+
+        <!-- Lignes de mouvement de l'aile -->
+        <path
+          class="duck-avatar__sparkle"
+          d="M 42 62 L 50 68 M 38 72 L 48 76"
+          stroke="#111827"
+          stroke-width="2"
+          stroke-linecap="round"
+          fill="none"
+        />
+
+        <!-- Tête et visage -->
+        <circle class="duck-avatar__head" cx="95" cy="65" r="34" fill="#ffd54a" />
+
+        <!-- Bec avec grand sourire -->
+        <path
+          class="duck-avatar__beak"
+          d="M 110 58 C 128 58 138 62 134 70 C 130 82 115 82 106 74 C 103 66 103 60 110 58 Z"
+          fill="#f59e0b"
+        />
+        <path class="duck-avatar__mouth" d="M 108 67 C 115 78 128 78 132 68 Z" fill="#111827" />
+
+        <!-- Yeux ronds et brillants -->
+        <circle class="duck-avatar__eye" cx="90" cy="56" r="5" fill="#111827" />
+        <circle class="duck-avatar__sparkle" cx="91.5" cy="54.5" r="1.5" fill="#ffffff" />
+        <circle class="duck-avatar__eye" cx="112" cy="56" r="5" fill="#111827" />
+        <circle class="duck-avatar__sparkle" cx="113.5" cy="54.5" r="1.5" fill="#ffffff" />
+
+        <!-- Sourcils levés -->
+        <path
+          class="duck-avatar__brow"
+          d="M 85 48 Q 90 45 95 48"
+          fill="none"
+          stroke="#111827"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+        <path
+          class="duck-avatar__brow"
+          d="M 107 48 Q 112 45 117 48"
+          fill="none"
+          stroke="#111827"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
       </svg>
     }
 
     @case ('curious') {
       <svg
-        class="duck-avatar__svg"
+        class="duck-avatar__svg duck-avatar__svg--curious"
         viewBox="0 0 160 160"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         focusable="false"
       >
-        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
-        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
-        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
-        <circle cx="102" cy="55" r="3.5" class="duck-avatar__eye" />
-        <circle cx="116" cy="53" r="4.5" class="duck-avatar__eye" />
-        <path d="M98 47 Q103 43 108 47" class="duck-avatar__brow" />
-        <path d="M111 49 Q116 45 121 47" class="duck-avatar__brow" />
-        <path d="M102 68 Q108 65 114 68" class="duck-avatar__smile duck-avatar__smile--subtle" />
-        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+        <!-- Point d'interrogation flottant -->
+        <path
+          class="duck-avatar__question-mark"
+          d="M 40 35 C 40 25 55 25 55 35 C 55 42 48 44 48 52 M 48 60 L 48 62"
+          stroke="#111827"
+          stroke-width="3.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+
+        <!-- Pattes -->
+        <path
+          class="duck-avatar__leg"
+          d="M 60 135 L 60 148 L 68 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          class="duck-avatar__leg"
+          d="M 85 135 L 85 148 L 93 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Corps et Queue -->
+        <path
+          class="duck-avatar__tail"
+          d="M 35 115 Q 15 105 20 85 Q 35 90 45 95 Z"
+          fill="#ffd54a"
+        />
+        <ellipse class="duck-avatar__body" cx="70" cy="105" rx="45" ry="40" fill="#ffd54a" />
+
+        <!-- Aile au repos -->
+        <path
+          class="duck-avatar__wing"
+          d="M 50 95 C 40 115, 60 125, 80 115"
+          fill="none"
+          stroke="#f59e0b"
+          stroke-width="4"
+          stroke-linecap="round"
+        />
+
+        <!-- Tête et visage avec légère inclinaison -->
+        <g class="duck-avatar__head-group" transform="rotate(8, 95, 65)">
+          <circle class="duck-avatar__head" cx="95" cy="65" r="34" fill="#ffd54a" />
+
+          <!-- Bec -->
+          <path
+            class="duck-avatar__beak"
+            d="M 110 60 C 125 60 135 62 132 68 C 128 74 115 74 108 72 C 105 66 105 62 110 60 Z"
+            fill="#f59e0b"
+          />
+          <!-- Petit sourire en coin (Smirk) -->
+          <path
+            class="duck-avatar__smirk"
+            d="M 108 68 C 115 68 122 66 128 64"
+            stroke="#111827"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          />
+
+          <!-- Œil gauche agrandi, œil droit normal -->
+          <circle class="duck-avatar__eye" cx="90" cy="58" r="6" fill="#111827" />
+          <circle class="duck-avatar__sparkle" cx="91" cy="55" r="2" fill="#ffffff" />
+          <circle class="duck-avatar__eye" cx="112" cy="58" r="3.5" fill="#111827" />
+
+          <!-- Sourcil levé d'un côté -->
+          <path
+            class="duck-avatar__brow"
+            d="M 84 45 Q 90 40 96 45"
+            stroke="#111827"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          />
+          <path
+            class="duck-avatar__brow"
+            d="M 108 51 L 116 51"
+            stroke="#111827"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          />
+        </g>
       </svg>
     }
 
     @case ('thinking') {
       <svg
-        class="duck-avatar__svg"
+        class="duck-avatar__svg duck-avatar__svg--thinking"
         viewBox="0 0 160 160"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         focusable="false"
       >
-        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
-        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
-        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
-        <circle cx="103" cy="56" r="3.5" class="duck-avatar__eye" />
-        <circle cx="116" cy="56" r="3.5" class="duck-avatar__eye" />
-        <path d="M97 48 L109 46" class="duck-avatar__brow" />
-        <path d="M111 46 L121 48" class="duck-avatar__brow" />
-        <path d="M103 69 L114 69" class="duck-avatar__mouth" />
-        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
-        <circle cx="134" cy="34" r="3" class="duck-avatar__thought" />
-        <circle cx="142" cy="26" r="4" class="duck-avatar__thought" />
+        <!-- Bulles de pensée -->
+        <circle
+          class="duck-avatar__thought"
+          cx="80"
+          cy="50"
+          r="3"
+          fill="#ffffff"
+          stroke="#111827"
+          stroke-width="1.5"
+        />
+        <circle
+          class="duck-avatar__thought"
+          cx="70"
+          cy="38"
+          r="5"
+          fill="#ffffff"
+          stroke="#111827"
+          stroke-width="1.5"
+        />
+        <path
+          class="duck-avatar__thought-cloud"
+          d="M 45 35 Q 40 25 50 20 Q 60 10 75 15 Q 90 10 95 25 Q 105 35 95 45 Q 85 55 70 50 Q 55 55 45 45 Q 35 40 45 35 Z"
+          fill="#ffffff"
+          stroke="#111827"
+          stroke-width="2"
+          stroke-linejoin="round"
+        />
+
+        <!-- Points de suspension -->
+        <circle class="duck-avatar__thought-dot" cx="60" cy="33" r="1.5" fill="#111827" />
+        <circle class="duck-avatar__thought-dot" cx="70" cy="33" r="1.5" fill="#111827" />
+        <circle class="duck-avatar__thought-dot" cx="80" cy="33" r="1.5" fill="#111827" />
+
+        <!-- Pattes -->
+        <path
+          class="duck-avatar__leg"
+          d="M 60 135 L 60 148 L 68 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          class="duck-avatar__leg"
+          d="M 85 135 L 85 148 L 93 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Corps et Queue -->
+        <path
+          class="duck-avatar__tail"
+          d="M 35 115 Q 15 105 20 85 Q 35 90 45 95 Z"
+          fill="#ffd54a"
+        />
+        <ellipse class="duck-avatar__body" cx="70" cy="105" rx="45" ry="40" fill="#ffd54a" />
+
+        <!-- Aile repliée (bras croisé) -->
+        <path
+          class="duck-avatar__wing"
+          d="M 50 100 Q 75 110 90 95"
+          fill="none"
+          stroke="#f59e0b"
+          stroke-width="4"
+          stroke-linecap="round"
+        />
+
+        <!-- Tête -->
+        <circle class="duck-avatar__head" cx="95" cy="65" r="34" fill="#ffd54a" />
+
+        <!-- Bec plat -->
+        <path
+          class="duck-avatar__beak"
+          d="M 110 60 C 125 60 135 62 132 68 C 128 74 115 74 108 72 C 105 66 105 62 110 60 Z"
+          fill="#f59e0b"
+        />
+        <path
+          class="duck-avatar__mouth"
+          d="M 108 68 L 125 68"
+          stroke="#111827"
+          stroke-width="1.5"
+          fill="none"
+          stroke-linecap="round"
+        />
+
+        <!-- Yeux regardant vers le haut -->
+        <circle
+          class="duck-avatar__eye-outer"
+          cx="90"
+          cy="58"
+          r="5"
+          fill="#ffffff"
+          stroke="#111827"
+          stroke-width="1.5"
+        />
+        <circle class="duck-avatar__pupil" cx="88" cy="56" r="2.5" fill="#111827" />
+        <circle
+          class="duck-avatar__eye-outer"
+          cx="112"
+          cy="58"
+          r="5"
+          fill="#ffffff"
+          stroke="#111827"
+          stroke-width="1.5"
+        />
+        <circle class="duck-avatar__pupil" cx="110" cy="56" r="2.5" fill="#111827" />
+
+        <!-- Sourcils froncés -->
+        <path
+          class="duck-avatar__brow"
+          d="M 84 48 L 94 51"
+          stroke="#111827"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+        <path
+          class="duck-avatar__brow"
+          d="M 116 48 L 106 51"
+          stroke="#111827"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
       </svg>
     }
 
     @case ('sarcastic') {
       <svg
-        class="duck-avatar__svg"
+        class="duck-avatar__svg duck-avatar__svg--sarcastic"
         viewBox="0 0 160 160"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         focusable="false"
       >
-        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
-        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
-        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
-        <circle cx="102" cy="56" r="3" class="duck-avatar__eye" />
-        <circle cx="116" cy="56" r="3" class="duck-avatar__eye" />
-        <path d="M97 48 L108 45" class="duck-avatar__brow" />
-        <path d="M112 45 L121 49" class="duck-avatar__brow" />
-        <path d="M101 69 Q109 66 117 70" class="duck-avatar__smirk" />
-        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+        <!-- Posture penchée en arrière -->
+        <g transform="rotate(-5, 80, 80)">
+          <!-- Pattes -->
+          <path
+            class="duck-avatar__leg"
+            d="M 60 135 L 60 148 L 68 148"
+            stroke="#f59e0b"
+            stroke-width="5"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            class="duck-avatar__leg"
+            d="M 85 135 L 85 148 L 93 148"
+            stroke="#f59e0b"
+            stroke-width="5"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+
+          <!-- Corps et Queue -->
+          <path
+            class="duck-avatar__tail"
+            d="M 35 115 Q 15 105 20 85 Q 35 90 45 95 Z"
+            fill="#ffd54a"
+          />
+          <ellipse class="duck-avatar__body" cx="70" cy="105" rx="45" ry="40" fill="#ffd54a" />
+
+          <!-- Aile -->
+          <path
+            class="duck-avatar__wing"
+            d="M 50 95 C 40 115, 60 125, 80 115"
+            fill="none"
+            stroke="#f59e0b"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+
+          <!-- Tête -->
+          <circle class="duck-avatar__head" cx="95" cy="65" r="34" fill="#ffd54a" />
+
+          <!-- Bec avec Smirk asymétrique -->
+          <path
+            class="duck-avatar__beak"
+            d="M 110 60 C 125 60 135 62 132 68 C 128 74 115 74 108 72 C 105 66 105 62 110 60 Z"
+            fill="#f59e0b"
+          />
+          <path
+            class="duck-avatar__smirk"
+            d="M 108 68 C 115 69 125 67 130 62"
+            stroke="#111827"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          />
+
+          <!-- Yeux mi-clos -->
+          <path class="duck-avatar__eye" d="M 85 58 L 95 58 A 5 5 0 0 1 85 58 Z" fill="#111827" />
+          <line
+            class="duck-avatar__eye-lid"
+            x1="83"
+            y1="58"
+            x2="97"
+            y2="58"
+            stroke="#111827"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+
+          <path
+            class="duck-avatar__eye"
+            d="M 107 58 L 117 58 A 5 5 0 0 1 107 58 Z"
+            fill="#111827"
+          />
+          <line
+            class="duck-avatar__eye-lid"
+            x1="105"
+            y1="58"
+            x2="119"
+            y2="58"
+            stroke="#111827"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+
+          <!-- Sourcils (un haut, un bas) -->
+          <path
+            class="duck-avatar__brow"
+            d="M 84 45 Q 90 42 96 45"
+            stroke="#111827"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          />
+          <path
+            class="duck-avatar__brow"
+            d="M 107 52 L 117 52"
+            stroke="#111827"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          />
+        </g>
+
+        <!-- Étoile ironique -->
+        <path
+          class="duck-avatar__sparkle"
+          d="M 135 30 Q 135 40 125 40 Q 135 40 135 50 Q 135 40 145 40 Q 135 40 135 30 Z"
+          fill="#ffffff"
+          stroke="#111827"
+          stroke-width="1.5"
+        />
       </svg>
     }
 
     @case ('empathetic') {
       <svg
-        class="duck-avatar__svg"
+        class="duck-avatar__svg duck-avatar__svg--empathetic"
         viewBox="0 0 160 160"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         focusable="false"
       >
-        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
-        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
-        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
-        <circle cx="103" cy="56" r="3" class="duck-avatar__eye" />
-        <circle cx="116" cy="56" r="3" class="duck-avatar__eye" />
-        <path d="M99 49 Q103 46 107 49" class="duck-avatar__brow duck-avatar__brow--soft" />
-        <path d="M112 49 Q116 46 120 49" class="duck-avatar__brow duck-avatar__brow--soft" />
-        <path d="M101 68 Q108 75 116 68" class="duck-avatar__smile duck-avatar__smile--soft" />
-        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
-        <circle cx="96" cy="63" r="2" class="duck-avatar__blush" />
-        <circle cx="121" cy="63" r="2" class="duck-avatar__blush" />
+        <!-- Petit cœur flottant -->
+        <path
+          class="duck-avatar__heart"
+          d="M 32 30 A 4 4 0 0 1 40 30 A 4 4 0 0 1 48 30 Q 48 35 40 42 Q 32 35 32 30 Z"
+          fill="#f9a8d4"
+          stroke="#111827"
+          stroke-width="1.5"
+          stroke-linejoin="round"
+        />
+
+        <!-- Pattes -->
+        <path
+          class="duck-avatar__leg"
+          d="M 60 135 L 60 148 L 68 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          class="duck-avatar__leg"
+          d="M 85 135 L 85 148 L 93 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Corps et Queue -->
+        <path
+          class="duck-avatar__tail"
+          d="M 35 115 Q 15 105 20 85 Q 35 90 45 95 Z"
+          fill="#ffd54a"
+        />
+        <ellipse class="duck-avatar__body" cx="70" cy="105" rx="45" ry="40" fill="#ffd54a" />
+
+        <!-- Aile tendue vers l'avant (câlin) -->
+        <path
+          class="duck-avatar__wing"
+          d="M 55 95 Q 75 90 85 105"
+          fill="none"
+          stroke="#f59e0b"
+          stroke-width="4"
+          stroke-linecap="round"
+        />
+
+        <!-- Tête -->
+        <circle class="duck-avatar__head" cx="95" cy="65" r="34" fill="#ffd54a" />
+
+        <!-- Blush -->
+        <circle class="duck-avatar__blush" cx="82" cy="66" r="6" fill="#f9a8d4" opacity="0.6" />
+        <circle class="duck-avatar__blush" cx="120" cy="66" r="6" fill="#f9a8d4" opacity="0.6" />
+
+        <!-- Bec avec sourire doux -->
+        <path
+          class="duck-avatar__beak"
+          d="M 110 60 C 125 60 135 62 132 68 C 128 74 115 74 108 72 C 105 66 105 62 110 60 Z"
+          fill="#f59e0b"
+        />
+        <path
+          class="duck-avatar__smile"
+          d="M 108 67 C 115 72 125 72 130 67"
+          stroke="#111827"
+          stroke-width="1.5"
+          fill="none"
+          stroke-linecap="round"
+        />
+
+        <!-- Yeux grands et doux -->
+        <circle class="duck-avatar__eye" cx="90" cy="58" r="6" fill="#111827" />
+        <circle class="duck-avatar__sparkle" cx="89" cy="56" r="2.5" fill="#ffffff" />
+        <circle class="duck-avatar__sparkle" cx="92" cy="60" r="1" fill="#ffffff" />
+
+        <circle class="duck-avatar__eye" cx="112" cy="58" r="6" fill="#111827" />
+        <circle class="duck-avatar__sparkle" cx="111" cy="56" r="2.5" fill="#ffffff" />
+        <circle class="duck-avatar__sparkle" cx="114" cy="60" r="1" fill="#ffffff" />
+
+        <!-- Sourcils relevés au centre (compassion) -->
+        <path
+          class="duck-avatar__brow"
+          d="M 84 48 Q 90 44 96 49"
+          stroke="#111827"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+        />
+        <path
+          class="duck-avatar__brow"
+          d="M 106 49 Q 112 44 118 48"
+          stroke="#111827"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+        />
       </svg>
     }
 
     @case ('confused') {
       <svg
-        class="duck-avatar__svg"
+        class="duck-avatar__svg duck-avatar__svg--confused"
         viewBox="0 0 160 160"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         focusable="false"
       >
-        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
-        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
-        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
-        <circle cx="102" cy="56" r="4" class="duck-avatar__eye" />
-        <circle cx="117" cy="56" r="2.5" class="duck-avatar__eye" />
-        <path d="M97 47 Q101 42 106 47" class="duck-avatar__brow" />
-        <path d="M113 49 Q117 52 121 49" class="duck-avatar__brow" />
-        <path d="M102 70 Q108 64 114 70" class="duck-avatar__mouth duck-avatar__mouth--confused" />
-        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
+        <!-- Spirale de perplexité -->
+        <path
+          class="duck-avatar__spiral"
+          d="M 40 30 C 45 20 60 20 60 30 C 60 40 45 40 45 30 C 45 25 52 25 52 30"
+          stroke="#111827"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+        />
+
+        <!-- Pattes -->
+        <path
+          class="duck-avatar__leg"
+          d="M 60 135 L 60 148 L 68 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          class="duck-avatar__leg"
+          d="M 85 135 L 85 148 L 93 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Corps et Queue -->
+        <path
+          class="duck-avatar__tail"
+          d="M 35 115 Q 15 105 20 85 Q 35 90 45 95 Z"
+          fill="#ffd54a"
+        />
+        <ellipse class="duck-avatar__body" cx="70" cy="105" rx="45" ry="40" fill="#ffd54a" />
+
+        <!-- Aile -->
+        <path
+          class="duck-avatar__wing"
+          d="M 50 95 C 40 115, 60 125, 80 115"
+          fill="none"
+          stroke="#f59e0b"
+          stroke-width="4"
+          stroke-linecap="round"
+        />
+
+        <!-- Tête inclinée -->
+        <g class="duck-avatar__head-group" transform="rotate(-8, 95, 65)">
+          <circle class="duck-avatar__head" cx="95" cy="65" r="34" fill="#ffd54a" />
+
+          <!-- Bec -->
+          <path
+            class="duck-avatar__beak"
+            d="M 110 60 C 125 60 135 62 132 68 C 128 74 115 74 108 72 C 105 66 105 62 110 60 Z"
+            fill="#f59e0b"
+          />
+          <!-- Bouche en zigzag/vague -->
+          <path
+            class="duck-avatar__mouth"
+            d="M 108 67 C 112 64 116 70 120 67 C 124 64 128 70 130 67"
+            stroke="#111827"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+
+          <!-- Yeux de tailles différentes -->
+          <circle class="duck-avatar__eye" cx="90" cy="58" r="3" fill="#111827" />
+          <circle class="duck-avatar__eye" cx="112" cy="58" r="6" fill="#111827" />
+          <circle class="duck-avatar__sparkle" cx="113" cy="55" r="1.5" fill="#ffffff" />
+
+          <!-- Sourcils asymétriques irréguliers -->
+          <path
+            class="duck-avatar__brow"
+            d="M 85 45 L 90 48 L 95 45"
+            stroke="#111827"
+            stroke-width="2"
+            fill="none"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+          />
+          <path
+            class="duck-avatar__brow"
+            d="M 106 43 Q 112 38 118 43"
+            stroke="#111827"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          />
+        </g>
       </svg>
     }
 
     @case ('celebrating') {
       <svg
-        class="duck-avatar__svg"
+        class="duck-avatar__svg duck-avatar__svg--celebrating"
         viewBox="0 0 160 160"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         focusable="false"
       >
-        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
-        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
-        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
-        <path d="M99 55 Q103 50 107 55" class="duck-avatar__eye-arc" />
-        <path d="M112 55 Q116 50 120 55" class="duck-avatar__eye-arc" />
-        <path d="M99 67 Q108 78 118 67" class="duck-avatar__smile duck-avatar__smile--big" />
-        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
-        <circle cx="88" cy="28" r="3" class="duck-avatar__sparkle" />
-        <circle cx="98" cy="22" r="2.5" class="duck-avatar__sparkle" />
-        <circle cx="146" cy="48" r="3" class="duck-avatar__sparkle" />
+        <!-- Étincelles de célébration -->
+        <path
+          class="duck-avatar__sparkle"
+          d="M 30 20 Q 30 30 20 30 Q 30 30 30 40 Q 30 30 40 30 Q 30 30 30 20 Z"
+          fill="#f59e0b"
+        />
+        <path
+          class="duck-avatar__sparkle"
+          d="M 140 30 Q 140 35 135 35 Q 140 35 140 40 Q 140 35 145 35 Q 140 35 140 30 Z"
+          fill="#ffffff"
+          stroke="#111827"
+          stroke-width="1.5"
+        />
+        <path
+          class="duck-avatar__sparkle"
+          d="M 25 120 Q 25 125 20 125 Q 25 125 25 130 Q 25 125 30 125 Q 25 125 25 120 Z"
+          fill="#f9a8d4"
+        />
+        <path
+          class="duck-avatar__sparkle"
+          d="M 130 110 Q 130 115 125 115 Q 130 115 130 120 Q 130 115 135 115 Q 130 115 130 110 Z"
+          fill="#f59e0b"
+        />
+
+        <!-- Pattes -->
+        <path
+          class="duck-avatar__leg"
+          d="M 60 135 L 60 148 L 68 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          class="duck-avatar__leg"
+          d="M 85 135 L 85 148 L 93 148"
+          stroke="#f59e0b"
+          stroke-width="5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Corps et Queue -->
+        <path
+          class="duck-avatar__tail"
+          d="M 35 115 Q 15 105 20 85 Q 35 90 45 95 Z"
+          fill="#ffd54a"
+        />
+        <ellipse class="duck-avatar__body" cx="70" cy="105" rx="45" ry="40" fill="#ffd54a" />
+
+        <!-- Aile levée en victoire -->
+        <path
+          class="duck-avatar__wing"
+          d="M 50 95 Q 35 65 40 55 Q 50 60 65 85"
+          fill="#ffd54a"
+          stroke="#f59e0b"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Tête -->
+        <circle class="duck-avatar__head" cx="95" cy="65" r="34" fill="#ffd54a" />
+
+        <!-- Énorme bec souriant avec langue -->
+        <path
+          class="duck-avatar__beak"
+          d="M 108 60 C 125 60 135 62 132 68 C 130 85 115 85 108 72 Z"
+          fill="#f59e0b"
+        />
+        <path class="duck-avatar__mouth" d="M 110 67 C 115 80 125 80 130 67 Z" fill="#111827" />
+        <ellipse class="duck-avatar__tongue" cx="120" cy="74" rx="4" ry="2" fill="#f9a8d4" />
+
+        <!-- Yeux fermés de joie (en arc) -->
+        <path
+          class="duck-avatar__eye-arc"
+          d="M 84 58 Q 90 52 96 58"
+          stroke="#111827"
+          stroke-width="2.5"
+          fill="none"
+          stroke-linecap="round"
+        />
+        <path
+          class="duck-avatar__eye-arc"
+          d="M 106 58 Q 112 52 118 58"
+          stroke="#111827"
+          stroke-width="2.5"
+          fill="none"
+          stroke-linecap="round"
+        />
       </svg>
     }
 
     @case ('sleeping') {
       <svg
-        class="duck-avatar__svg"
+        class="duck-avatar__svg duck-avatar__svg--sleeping"
         viewBox="0 0 160 160"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
         focusable="false"
       >
-        <circle cx="80" cy="84" r="48" class="duck-avatar__body" />
-        <circle cx="108" cy="60" r="24" class="duck-avatar__head" />
-        <polygon points="124,62 146,70 124,78" class="duck-avatar__beak" />
-        <path d="M99 56 L107 56" class="duck-avatar__eye-closed" />
-        <path d="M113 56 L121 56" class="duck-avatar__eye-closed" />
-        <path d="M102 69 Q108 72 114 69" class="duck-avatar__smile duck-avatar__smile--subtle" />
-        <circle cx="62" cy="112" r="12" class="duck-avatar__wing" />
-        <text x="134" y="30" class="duck-avatar__sleep-mark">Z</text>
+        <!-- Z z z flottants -->
+        <path
+          class="duck-avatar__sleep-mark"
+          d="M 45 45 L 53 45 L 45 53 L 53 53"
+          stroke="#111827"
+          stroke-width="2"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          class="duck-avatar__sleep-mark"
+          d="M 30 30 L 42 30 L 30 42 L 42 42"
+          stroke="#111827"
+          stroke-width="2.5"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          class="duck-avatar__sleep-mark"
+          d="M 10 10 L 26 10 L 10 26 L 26 26"
+          stroke="#111827"
+          stroke-width="3"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Posture penchée en avant endormie -->
+        <g transform="rotate(5, 80, 140)">
+          <!-- Pattes -->
+          <path
+            class="duck-avatar__leg"
+            d="M 60 135 L 60 148 L 68 148"
+            stroke="#f59e0b"
+            stroke-width="5"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            class="duck-avatar__leg"
+            d="M 85 135 L 85 148 L 93 148"
+            stroke="#f59e0b"
+            stroke-width="5"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+
+          <!-- Corps et Queue -->
+          <path
+            class="duck-avatar__tail"
+            d="M 35 115 Q 15 105 20 85 Q 35 90 45 95 Z"
+            fill="#ffd54a"
+          />
+          <ellipse class="duck-avatar__body" cx="70" cy="105" rx="45" ry="40" fill="#ffd54a" />
+
+          <!-- Aile repliée et détendue -->
+          <path
+            class="duck-avatar__wing"
+            d="M 55 100 Q 70 120 85 110"
+            fill="none"
+            stroke="#f59e0b"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+
+          <!-- Tête -->
+          <circle class="duck-avatar__head" cx="95" cy="65" r="34" fill="#ffd54a" />
+
+          <!-- Bec doux et fermé -->
+          <path
+            class="duck-avatar__beak"
+            d="M 110 62 C 125 62 132 64 128 68 C 125 72 115 72 108 70 C 105 66 105 64 110 62 Z"
+            fill="#f59e0b"
+          />
+
+          <!-- Yeux fermés paisiblement -->
+          <path
+            class="duck-avatar__eye-closed"
+            d="M 84 58 Q 90 62 96 58"
+            stroke="#111827"
+            stroke-width="2.5"
+            fill="none"
+            stroke-linecap="round"
+          />
+          <path
+            class="duck-avatar__eye-closed"
+            d="M 106 58 Q 112 62 118 58"
+            stroke="#111827"
+            stroke-width="2.5"
+            fill="none"
+            stroke-linecap="round"
+          />
+        </g>
       </svg>
     }
   }
