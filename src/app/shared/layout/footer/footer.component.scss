@@ -23,42 +23,25 @@
   gap: 1.5rem;
 }
 
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  background-color: var(--color-surface-container-high);
-  color: var(--color-on-surface-variant);
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
 .theme-toggle:hover {
-  color: var(--color-on-background);
-}
-
-.theme-icon {
-  font-size: 20px;
+  color: #353a26;
 }
 
 .footer-divider {
   height: 1rem;
   width: 1px;
-  background-color: rgba(183, 188, 162, 0.3);
+  background-color: #626750;
 }
 
 .footer-link {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--color-on-surface-variant);
+  color: #626750;
   transition: color 0.3s;
 }
 
 .footer-link:hover {
-  color: var(--color-primary);
+  color: #776300;
 }
 
 .footer-copy {
